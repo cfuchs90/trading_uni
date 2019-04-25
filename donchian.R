@@ -51,4 +51,27 @@ add.signal(donchian_strategy, name = sigComparison,
            label = 'BelowChannel' )
 
 #---- Set up the Rules ---- #
-add.rule()
+
+# Enter Long
+add.rule(donchian_strategy, name = 'ruleSignal',
+         arguments = list(
+             sigcol = c("Close", "AboveChannel"),
+             sigval = TRUE,
+             orderqty = orderSize,
+             ordertype = 'market',
+             orderside = 'long'),
+         type = 'enter'
+         )
+
+# Enter Short
+add.rule(donchian_strategy, name = 'ruleSignal',
+         arguments = list(
+             sigcol = c("Close", "BelowChannel"),
+             sigval = TRUE,
+             orderqty = orderSize,
+             ordertype = 'market',
+             orderside = 'short'),
+         type = 'enter'
+         )
+
+# ---- TODO Exit Signale festlegen und implementieren ----
