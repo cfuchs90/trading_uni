@@ -62,11 +62,6 @@ add.signal(donchian_strategy, name = "sigComparison",
                relationship = "lt"),
            label = "short" )
 
-add.signal(donchian_strategy, name = "sigComparison",
-           arguments = list(
-               columns = c("Close", "mid.DNC"),
-               relationship = "eq"),
-           label = "exit" )
 
 #---- Set up the Rules ---- #
 
@@ -96,7 +91,6 @@ add.rule(donchian_strategy, name = "ruleSignal",
          label = "EnterShort"
          )
 
-# ---- TODO Exit Signale fixen
 
 # Exit Long
 add.rule(donchian_strategy, name = "ruleSignal",
@@ -122,7 +116,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
          type = 'exit'
          )
 
-## results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
+results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
 ## getTxns(Portfolio=donchian_strategy, Symbol="GSPC")
 ## chart.Posn(donchian_strategy, Symbol = "GSPC", Dates = "2017::")
 
@@ -157,9 +151,9 @@ if( Sys.info()['sysname'] == "Windows" )
 
 
 optimization <- apply.paramset(donchian_strategy,
-  paramset.label='DonchianChannel',
-  portfolio.st=donchian_strategy,
-  account.st=donchian_strategy, nsamples=0)
+                               paramset.label='DonchianChannel',
+                               portfolio.st=donchian_strategy,
+                               account.st=donchian_strategy, nsamples=0)
 
 tradeResults <- optimization$tradeStats
 idx <- order(tradeResults[,1], tradeResults[,2])
