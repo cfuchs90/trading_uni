@@ -19,7 +19,7 @@ colnames(GSPC) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
                                         # Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
-fee = 2 # Transaction fee of $2
+fee = -10 # Transaction fee of $2
 stopp_loss <- 0.02
 
 options(repr.plot.width = 6, repr.plot.height = 4)
@@ -76,6 +76,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "long",
              ordertype = "market",
              replace = FALSE,
+             TxnFees = fee,
              orderqty = +orderSize),
          type = "enter",
          label = "EnterLong",
@@ -89,8 +90,10 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "short",
              ordertype = "market",
              replace = FALSE,
+             TxnFees = fee,
              orderqty = -orderSize),
          type = "enter",
+
          label = "EnterShort"
          )
 
@@ -103,6 +106,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderqty = 'all',
              ordertype = 'market',
              replace = TRUE,
+             TxnFees = fee,
              orderside = 'long'),
          type = 'exit'
          )
@@ -115,6 +119,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderqty = 'all',
              ordertype = 'market',
              replace = TRUE,
+             TxnFees = fee,
              orderside = 'short'),
          type = 'exit'
          )
@@ -145,6 +150,7 @@ charts.PerformanceSummary(rets/100, colorset=bluefocus)
 # tim trice book of quantstrat
 #https://timtrice.github.io/
 
+
 rm.strat("buyHold")
 
 initPortf("buyHold", symbols = "GSPC", initDate = initDate)
@@ -163,16 +169,15 @@ LastDate <- last(time(GSPC))
 LastPrice <- as.numeric(Cl(GSPC[LastDate,]))
 addTxn("buyHold", Symbol = "GSPC",
        TxnDate = LastDate, TxnPrice = LastPrice,
-       TxnQty = orderSize , TxnFees = 0)
+       TxnQty = -orderSize, TxnFees = 0)
 
 updatePortf(Portfolio = "buyHold")
 updateAcct(name = "buyHold")
 updateEndEq(Account = "buyHold")
 chart.Posn("buyHold", Symbol = "GSPC")
 
-# --- TODO Fix Buy and Hold Trading Statistics
 tstats_buyhold = t(tradeStats('buyHold', 'GSPC'))
-
+tstats_buyhold 
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
