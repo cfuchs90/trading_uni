@@ -16,7 +16,7 @@ GSPC <- na.omit(GSPC)
 # Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
-fee = 2 # Transaction fee of $2
+fee = -10 # Transaction fee of $2
 stopp_loss <- 0.02
 
 init_n <- 20
@@ -73,6 +73,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "long",
              ordertype = "market",
              replace = FALSE,
+             TxnFees = fee,
              orderqty = +orderSize),
          type = "enter",
          label = "EnterLong",
@@ -85,6 +86,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              sigval = TRUE,
              orderside = "short",
              ordertype = "market",
+             TxnFees = fee,
              replace = FALSE,
              orderqty = -orderSize),
          type = "enter",
@@ -100,6 +102,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderqty = 'all',
              ordertype = 'market',
              replace = TRUE,
+             TxnFees = fee,
              orderside = 'long'),
          type = 'exit'
          )
@@ -112,6 +115,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderqty = 'all',
              ordertype = 'market',
              replace = TRUE,
+             TxnFees = fee,
              orderside = 'short'),
          type = 'exit'
          )
@@ -161,4 +165,5 @@ tradeResults <- tradeResults[idx,]
 
 max_annsharp = max(tradeResults$Ann.Sharpe)
 max_annsharp_parameter <- which(tradeResults$Ann.Sharpe==max_annsharp)
+max_annsharp_parameter
 
