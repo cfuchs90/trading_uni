@@ -1,4 +1,4 @@
-# parameter 54
+# parameter 69
 
 library(quantstrat)
 library(quantmod)
@@ -23,8 +23,7 @@ fee = -10 # Transaction fee of $2
 stopp_loss <- 0.02
 
 options(repr.plot.width = 6, repr.plot.height = 4)
-init_n <- 54
-n_opt_range <- 1:100
+init_n <- 69
 
 
 Sys.setenv(TZ="UTC")

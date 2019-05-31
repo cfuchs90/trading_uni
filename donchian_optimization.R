@@ -163,7 +163,6 @@ tradeResults <- optimization$tradeStats
 idx <- order(tradeResults[,1], tradeResults[,2])
 tradeResults <- tradeResults[idx,]
 
-max_annsharp = max(tradeResults$Ann.Sharpe)
-max_annsharp_parameter <- which(tradeResults$Ann.Sharpe==max_annsharp)
-max_annsharp_parameter
+max_calmar_parameter <- which.max(tradeResults$Profit.To.Max.Draw)
+max_calmar_parameter
 
