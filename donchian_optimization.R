@@ -10,9 +10,9 @@ initDate <- "1960-01-01"
 startDate <- "1960-01-01"
 endDate <- "1989-12-31"
 
-getSymbols("^GSPC", from = startDate, to = endDate)#, from = startDate, to = endDate, adjusted = TRUE)
-stock("GSPC", currency="USD", multiplier = 1)
-GSPC <- na.omit(GSPC)
+getSymbols("AAPL", from = startDate, to = endDate)#, from = startDate, to = endDate, adjusted = TRUE)
+stock("AAPL", currency="USD", multiplier = 1)
+AAPL <- na.omit(AAPL)
 # Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
@@ -26,13 +26,13 @@ n_opt_range <- 1:100
 Sys.setenv(TZ="UTC")
 
 
-donchian_strategy <- "donchian_channel"
+donchian_strategy <- "donchian-channel"
 
 # set up the strategy and portfolio components
 rm.strat(donchian_strategy)
 
 strategy(donchian_strategy, store = TRUE)
-initPortf(donchian_strategy, "GSPC", initDate = initDate)
+initPortf(donchian_strategy, "AAPL", initDate = initDate)
 initAcct(donchian_strategy,  portfolios = donchian_strategy,
          initDate = initDate, initEq = start_equity,
          currency = 'USD')
@@ -121,15 +121,15 @@ add.rule(donchian_strategy, name = "ruleSignal",
          )
 
 results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
-## getTxns(Portfolio=donchian_strategy, Symbol="GSPC")
-## chart.Posn(donchian_strategy, Symbol = "GSPC", Dates = "2017::")
+## getTxns(Portfolio=donchian_strategy, Symbol=symbols)
+## chart.Posn(donchian_strategy, Symbol = symbols, Dates = "2017::")
 
 ## updatePortf(donchian_strategy)
 ## updateAcct(donchian_strategy)
 ## updateEndEq(donchian_strategy)
-## chart.Posn(donchian_strategy, Symbol = 'GSPC', Dates = '2005::')
+## chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2005::')
 
-## trade_stats <- perTradeStats(donchian_strategy,"GSPC")
+## trade_stats <- perTradeStats(donchian_strategy,symbols)
 
 
 # Optimize the moving average parameter

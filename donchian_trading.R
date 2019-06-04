@@ -2,6 +2,8 @@
 
 library(quantstrat)
 library(quantmod)
+library(xts)
+library(lubridate)
 options(scipen=999)
 
 options(repr.plot.width = 6, repr.plot.height = 4)
@@ -13,9 +15,9 @@ initDate <- "1990-01-01"
 startDate <- "1990-01-01"
 endDate <- "2018-12-31"
 
-getSymbols("^GSPC", from = startDate, to = endDate)#, from = startDate, to = endDate, adjusted = TRUE)
-GSPC <- na.omit(GSPC)
-colnames(GSPC) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
+getSymbols("AAPL", from = startDate, to = endDate)#, from = startDate, to = endDate, adjusted = TRUE)
+AAPL <- na.omit(AAPL)
+colnames(AAPL) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
                                         # Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
@@ -23,18 +25,18 @@ fee = -10 # Transaction fee of $2
 stopp_loss <- 0.02
 
 options(repr.plot.width = 6, repr.plot.height = 4)
-init_n <- 69
+init_n <- 11
 
 
 Sys.setenv(TZ="UTC")
 
 
-donchian_strategy <- "donchian_channel"
+donchian_strategy <- "donchian-channel"
 rm.strat(donchian_strategy)
 
-stock("GSPC", currency="USD", multiplier = 1)
+stock("AAPL", currency="USD", multiplier = 1)
 strategy(donchian_strategy, store = TRUE)
-initPortf(donchian_strategy, "GSPC", initDate = initDate)
+initPortf(donchian_strategy, "AAPL", initDate = initDate)
 initAcct(donchian_strategy,  portfolios = donchian_strategy,
          initDate = initDate, initEq = start_equity,
          currency = 'USD')
@@ -73,6 +75,8 @@ add.rule(donchian_strategy, name = "ruleSignal",
              sigcol = "long",
              sigval = TRUE,
              orderside = "long",
+
+
              ordertype = "market",
              replace = FALSE,
              TxnFees = fee,
@@ -124,17 +128,16 @@ add.rule(donchian_strategy, name = "ruleSignal",
          )
 
 results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
-getTxns(Portfolio=donchian_strategy, Symbol="GSPC")
-chart.Posn(donchian_strategy, Symbol = "GSPC", Dates = "2017::")
+getTxns(Portfolio=donchian_strategy, Symbol="AAPL")
 
 updatePortf(donchian_strategy)
 updateAcct(donchian_strategy)
 updateEndEq(donchian_strategy)
-chart.Posn(donchian_strategy, Symbol = 'GSPC', Dates = '2005::')
+chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
 
-trade_stats <- perTradeStats(donchian_strategy,"GSPC")
+trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
-tstats = t(tradeStats(donchian_strategy, 'GSPC'))
+tstats = t(tradeStats(donchian_strategy, 'AAPL'))
 
 mk <- mktdata['1990-01-01::2018-12-31']
 mk.df <- data.frame(Date=time(mk),coredata(mk))
@@ -152,30 +155,30 @@ charts.PerformanceSummary(rets/100, colorset=bluefocus)
 
 rm.strat("buyHold")
 
-initPortf("buyHold", symbols = "GSPC", initDate = initDate)
+initPortf("buyHold", symbols = "AAPL", initDate = initDate)
 initAcct('buyHold', portfolios = 'buyHold', initDate = initDate,
          initEq = start_equity)
 
 CurrentDate <- time(getTxns(Portfolio = donchian_strategy,
-                            Symbol = "GSPC"))[2]
+                            Symbol = "AAPL"))[2]
 equity = getEndEq("buyHold", CurrentDate)
-ClosePrice <- as.numeric(Cl(GSPC[CurrentDate,]))
-addTxn("buyHold", Symbol = "GSPC",
+ClosePrice <- as.numeric(Cl(AAPL[CurrentDate,]))
+addTxn("buyHold", Symbol = "AAPL",
        TxnDate = CurrentDate, TxnPrice = ClosePrice,
        TxnQty = orderSize, TxnFees = 0)
 
-LastDate <- last(time(GSPC))
-LastPrice <- as.numeric(Cl(GSPC[LastDate,]))
-addTxn("buyHold", Symbol = "GSPC",
+LastDate <- last(time(AAPL))
+LastPrice <- as.numeric(Cl(AAPL[LastDate,]))
+addTxn("buyHold", Symbol = "AAPL",
        TxnDate = LastDate, TxnPrice = LastPrice,
        TxnQty = -orderSize, TxnFees = 0)
 
 updatePortf(Portfolio = "buyHold")
 updateAcct(name = "buyHold")
 updateEndEq(Account = "buyHold")
-chart.Posn("buyHold", Symbol = "GSPC")
+chart.Posn("buyHold", Symbol = "AAPL")
 
-tstats_buyhold = t(tradeStats('buyHold', 'GSPC'))
+tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold 
 
 #Performance Summary
@@ -196,4 +199,26 @@ charts.PerformanceSummary(return_both, geometric = FALSE,
                            main = 'Donchian Channel Strategy vs Market')
 #
 #
-t(perTradeStats('buyHold',"GSPC"))
+t(perTradeStats('buyHold',"AAPL"))
+
+#---- Fama French 3 Factor Model ----
+ff_factors <- read.csv2("./ff_factors.csv", sep = ',')
+
+# change the columns to the correct data type
+ff_factors$Mkt.RF <- as.numeric(as.character(ff_factors$Mkt.RF))
+ff_factors$SMB <- as.numeric(as.character(ff_factors$SMB))
+ff_factors$HML <- as.numeric(as.character(ff_factors$HML))
+ff_factors$RF <- as.numeric(as.character(ff_factors$RF))
+
+# Convert the first column to a date format
+colnames(ff_factors)[1] <- "Date"
+ff_factors$Date <-  ymd(ff_factors$Date)
+ff_date <- ff_factors$Date
+ff_factors <- ff_factors[, -1]
+
+# Create an XTS Object
+ff_factors <- xts(ff_factors, ff_date)
+ff_factors <- ff_factors["1990/20181228"]
+
+model <- lm(rets ~ ff_factors)
+summary(model)

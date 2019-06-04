@@ -1,0 +1,146 @@
+#+LATEX_HEADER: \input{lat_pre.tex}
+
+\newpage
+
+* Introduction
+* Methodology
+
+Technical Trading strategies are usually based off of some quantitative indicator, which generates the respective buy or sell signals. In this paper, the Donchian Channel has been chosen to demonstrate a typical quantitative strategy.
+The Donchian Channel has been invented by Richard Donchian in the 1970's and received a wider recognition after the Turtle Traders (see Appendix X) publicized their use of it. The system presented in this paper can be classified as
+as breakout system, since it generates a buy signal whenever the closing price is greater than the upper bound of the Donchian Channel and a short signal is triggered whenever the asset has a closing price below the lower bound.
+
+** Data
+For the purpose of backtesting the aforementioned strategy the daily adjusted closing stock prices of Apple (Ticker: AAPL) was used. The Data was downloaded from Yahoo Finance and spans from 1st January 1980 to the 1st January of 2018.
+The Data was split into two parts. The first part, which spans from 1980 to 1990 was used for the purpose of optimization. Particularly the number of days observed for the Donchian Channel was optimized.
+The second part from 1990 to 2018 was used to test the profitability of the strategy with the optimized parameter. 
+        
+** Indicator
+The indicator chosen for the backtest is called the **Donchian Channel**. It was invented by Richard Donchian in the 1970's and falls under the category of trend following indicators. It was used with great success by Richard Dennis
+who used it to train the Turtle Traders (**enter reference here**). Particularly its simplicity makes it a good candidate for backtesting since it is really easy to compute and thus makes it not computationally expensive.
+The indicator consists in its simplest form of an upper bound and a lower bound. The upper bound consists of the highest price of the last /n/ days, whereas the lower bound consists of the lowest price of the last /n/ days.
+The more complex indicator also consists of a middle line, which is simply an average of the aforementioned upper and lower bounds. However, in this paper it was not used and is therefore not mentioned in the following mathamtical
+representation of the indicator.
+
+
+\begin{align}
+Upper \;Channel\; = Max(p_{1}, p_{2}, ..., p_{n}) \\
+Lower \;Channel\; = Min(p_{1}, p_{2}, ..., p_{n})
+\end{align}
+
+** Strategy
+While it is possible to use the Donchian Channel as a countertrend strategy, the following trend following strategy was used for the purpose of this paper:
+
+*** Mathematical Representation of Buy and Sell Decisions
+
+A long signal is triggered, whenever the closing price of the current period lies above the upper bound and a short signal is generated whenever the closing price of the current period falls below the lower bound. Although plenty
+of possible signals to exit the positions exist, in this paper a sell signal exits a long trade and a short signal exits a long trade. 
+The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
+
+* Results
+    \begin{figure}[H]
+    \centering
+    \caption{Buy \& Hold Strategy - starting at the same time as the Donchian strategy}
+    \label{figure:buyhold_trading}
+    \includegraphics[width=10cm]{buyhold_trading.pdf}	
+    \end{figure}
+
+    \begin{figure}[H]
+    \centering
+    \caption{Buy \& Hold Strategy - Performance}
+    \label{figure:buyhold_performance}
+    \includegraphics[width=10cm]{buyhold_performance.pdf}	
+    \end{figure}
+
+    \begin{figure}[H]
+    \centering
+    \caption{Donchian Strategy - From 2016 to 2018}
+    \label{figure:strategy_trading}
+    \includegraphics[width=10cm]{strategy_trading.pdf}	
+    \end{figure}
+
+    \begin{figure}[H]
+    \centering
+    \caption{Donchian Strategy - Performance}
+    \label{figure:strategy_performance}
+    \includegraphics[width=10cm]{strategy_performance.pdf}	
+    \end{figure}
+
+    \begin{figure}[H]
+    \centering
+    \caption{Donchian Strategy vs Market}
+    \label{figure:strategy_vs_market}
+    \includegraphics[width=10cm]{strategy_vs_market}	
+    \end{figure}
+
+#+NAME: strategy-stats
+#+CAPTION: Donchian Strategy - Trading Statistics
+|                        |              AAPL |
+| Portfolio              | donchian\_channel |
+| Symbol                 |              AAPL |
+| Number of Transactions |              1600 |
+| Number of Trades       |               266 |
+| Net Trading P&L        |          13710664 |
+| Average Trade P&L      |          22258.66 |
+| Median Trade P&L       |          -8317.39 |
+| Largest Winner         |           8907160 |
+| Largest Loser          |          -1273010 |
+| Gross Profits          |          26234451 |
+| Gross Losses           |         -20313648 |
+| Std Dev Trade P&L      |          681073.7 |
+| Std Error Trade P&L    |          41759.31 |
+| Percent Positive       |            22.93% |
+| Percent Negative       |            77.97% |
+| Profit Factor          |          1.291469 |
+| Average Winning Trade  |            430073 |
+| Median Winning Trade   |          75790.28 |
+| Average Losing Trade   |         -17624.32 |
+| Average Daily P&L      |          22258.66 |
+| Median Daily P&L       |          -8317.39 |
+| Std Dev Daily P&L      |          681073.7 |
+| Std Error Daily P&L    |          41759.31 |
+| Annual Sharpe Ratio    |         0.5188061 |
+| Max Drawdown           |         -10656724 |
+| Calmar Ratio           |          1.286574 |
+| Average Win/Loss Ratio |          4.340183 |
+| Median Win/Loss Ratio  |          4.300324 |
+| Max Equity             |          16323872 |
+| Min Equity             |         -179396.2 |
+| End Equity             |          13710664 |
+
+
+#+NAME: buyhold-stats
+#+CAPTION: Buy & Hold - Trading Statistics
+| Portfolio              | "buyHold" |
+| Symbol                 |      AAPL |
+| Number of Transactions |         2 |
+| Number of Trades       |         1 |
+| Net Trading P&L        |   3100136 |
+| Average Trade P&L      |   3100136 |
+| Median Trade P&L       |   3100136 |
+| Largest Winner         |   3100136 |
+| Largest Loser          |         0 |
+| Gross Profits          |   3100136 |
+| Gross Losses           |         0 |
+| Std Dev Trade P&L      |        NA |
+| Std Error Trade P&L    |        NA |
+| Percent Positive       |      100% |
+| Percent Negative       |         0 |
+| Profit Factor          |        NA |
+| Average Winning Trade  |   3100136 |
+| Median Winning Trade   |   3100136 |
+| Average Losing Trade   |        NA |
+| Median Losing Trade    |        NA |
+| Average Daily P&L      |   3100136 |
+| Median Daily P&L       |   3100136 |
+| Std Dev Daily P&L      |        NA |
+| Std Error Daily P&L    |        NA |
+| Annual Sharpe Ratio    |        NA |
+| Max Drawdown           |  -1704800 |
+| Calmar Ratio           |  1.818475 |
+| Average Win/Loss Ratio |        NA |
+| Median Win/Loss Ratio  |        NA |
+| Max Equity             |   4616936 |
+| Min Equity             |  -15223.2 |
+| End Equity             |   3100136 |
+* Conclusion
+
