@@ -1,15 +1,21 @@
-# parameter 69
+# ----- IMPORTANT -----
+# Please set the working directory to the current directory using setwd()
+# before running the script
+
+# parameter 11
 
 library(quantstrat)
+library(lattice)
 library(quantmod)
 library(xts)
+library(stargazer)
 library(lubridate)
 options(scipen=999)
 
 options(repr.plot.width = 6, repr.plot.height = 4)
 currency("USD")
 
-                                        # set up the financial asset used and the dates
+# set up the financial asset and the dates
 
 initDate <- "1990-01-01"
 startDate <- "1990-01-01"
@@ -75,8 +81,6 @@ add.rule(donchian_strategy, name = "ruleSignal",
              sigcol = "long",
              sigval = TRUE,
              orderside = "long",
-
-
              ordertype = "market",
              replace = FALSE,
              TxnFees = fee,
@@ -96,7 +100,6 @@ add.rule(donchian_strategy, name = "ruleSignal",
              TxnFees = fee,
              orderqty = -orderSize),
          type = "enter",
-
          label = "EnterShort"
          )
 
@@ -138,6 +141,7 @@ chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
 tstats = t(tradeStats(donchian_strategy, 'AAPL'))
+stargazer(tstats)
 
 mk <- mktdata['1990-01-01::2018-12-31']
 mk.df <- data.frame(Date=time(mk),coredata(mk))
@@ -180,6 +184,7 @@ chart.Posn("buyHold", Symbol = "AAPL")
 
 tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold 
+stargazer(tstats_buyhold)
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
@@ -201,6 +206,11 @@ charts.PerformanceSummary(return_both, geometric = FALSE,
 #
 t(perTradeStats('buyHold',"AAPL"))
 
+#---- Relative Performance -----
+chart.RelativePerformance(returns, return_buyhold,
+                          colorset = c("red", "blue"), lwd = 2, 
+                          legend.loc = "topleft")
+
 #---- Fama French 3 Factor Model ----
 ff_factors <- read.csv2("./ff_factors.csv", sep = ',')
 
@@ -216,9 +226,17 @@ ff_factors$Date <-  ymd(ff_factors$Date)
 ff_date <- ff_factors$Date
 ff_factors <- ff_factors[, -1]
 
+# Rename the columns 
+colnames(ff_factors) <- c("MktRf", "SMB", "HL", "RF")
+
 # Create an XTS Object
 ff_factors <- xts(ff_factors, ff_date)
 ff_factors <- ff_factors["1990/20181228"]
 
-model <- lm(rets ~ ff_factors)
+# FF 3 Factor Model
+model <- lm(returns ~ MktRf + SMB + HL, data=ff_factors)
 summary(model)
+stargazer(model)
+
+pf <- getPortfolio(donchian_strategy)
+xyplot(pf$summary, type = "h", col = 4)

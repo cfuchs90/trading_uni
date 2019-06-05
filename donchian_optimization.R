@@ -120,7 +120,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
          type = 'exit'
          )
 
-results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
+#results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
 ## getTxns(Portfolio=donchian_strategy, Symbol=symbols)
 ## chart.Posn(donchian_strategy, Symbol = symbols, Dates = "2017::")
 

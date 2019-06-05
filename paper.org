@@ -1,9 +1,72 @@
+
 #+LATEX_HEADER: \input{lat_pre.tex}
 
 \newpage
 
 * Introduction
-* Methodology
+* Strategies
+
+** Buy and Hold
+	\begin{figure}[H]
+		\centering
+		\caption{Buy \& Hold Strategy}
+		\label{img:buyhold-strategy}
+		\includegraphics[width = 10cm]{buyhold_trading}
+	\end{figure}
+
+
+\begin{table}[!htbp] \centering 
+  \caption{Buy & Hold Trading Statistics} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & AAPL \\ 
+\hline \\[-1.8ex] 
+Portfolio & buyHold \\ 
+Symbol & AAPL \\ 
+Num.Txns & 2 \\ 
+Num.Trades & 1 \\ 
+Net.Trading.PL & 3100136 \\ 
+Avg.Trade.PL & 3100136 \\ 
+Med.Trade.PL & 3100136 \\ 
+Largest.Winner & 3100136 \\ 
+Largest.Loser & 0 \\ 
+Gross.Profits & 3100136 \\ 
+Gross.Losses & 0 \\ 
+Std.Dev.Trade.PL &  \\ 
+Std.Err.Trade.PL &  \\ 
+Percent.Positive & 100 \\ 
+Percent.Negative & 0 \\ 
+Profit.Factor &  \\ 
+Avg.Win.Trade & 3100136 \\ 
+Med.Win.Trade & 3100136 \\ 
+Avg.Losing.Trade &  \\ 
+Med.Losing.Trade &  \\ 
+Avg.Daily.PL & 3100136 \\ 
+Med.Daily.PL & 3100136 \\ 
+Std.Dev.Daily.PL &  \\ 
+Std.Err.Daily.PL &  \\ 
+Ann.Sharpe &  \\ 
+Max.Drawdown & -1704800 \\ 
+Profit.To.Max.Draw & 1.818475 \\ 
+Avg.WinLoss.Ratio &  \\ 
+Med.WinLoss.Ratio &  \\ 
+Max.Equity & 4616936 \\ 
+Min.Equity & -15223.2 \\ 
+End.Equity & 3100136 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+	\begin{figure}[H]
+		\centering
+		\caption{Buy \& Hold Performance}
+		\label{img:buyhold-performance}
+		\includegraphics[width = 10cm]{buyhold_performance}
+	\end{figure}
+
+** Donchian Channel Strategy
 
 Technical Trading strategies are usually based off of some quantitative indicator, which generates the respective buy or sell signals. In this paper, the Donchian Channel has been chosen to demonstrate a typical quantitative strategy.
 The Donchian Channel has been invented by Richard Donchian in the 1970's and received a wider recognition after the Turtle Traders (see Appendix X) publicized their use of it. The system presented in this paper can be classified as
@@ -37,110 +100,120 @@ of possible signals to exit the positions exist, in this paper a sell signal exi
 The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
 
 * Results
-    \begin{figure}[H]
-    \centering
-    \caption{Buy \& Hold Strategy - starting at the same time as the Donchian strategy}
-    \label{figure:buyhold_trading}
-    \includegraphics[width=10cm]{buyhold_trading.pdf}	
-    \end{figure}
+** Fama-French 3 Factor Model
+\begin{table}[!htbp] \centering 
+  \caption{Fama French 3 Factor Model} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & returns \\ 
+\hline \\[-1.8ex] 
+ MktRf & $-$0.00003 \\ 
+  & (0.00002) \\ 
+  & \\ 
+ SMB & 0.0001$^{**}$ \\ 
+  & (0.00003) \\ 
+  & \\ 
+ HL & 0.00000 \\ 
+  & (0.00003) \\ 
+  & \\ 
+ Constant & 0.00002 \\ 
+  & (0.00002) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 7,306 \\ 
+R$^{2}$ & 0.001 \\ 
+Adjusted R$^{2}$ & 0.001 \\ 
+Residual Std. Error & 0.002 (df = 7302) \\ 
+F Statistic & 2.701$^{**}$ (df = 3; 7302) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
 
-    \begin{figure}[H]
-    \centering
-    \caption{Buy \& Hold Strategy - Performance}
-    \label{figure:buyhold_performance}
-    \includegraphics[width=10cm]{buyhold_performance.pdf}	
-    \end{figure}
-
-    \begin{figure}[H]
-    \centering
-    \caption{Donchian Strategy - From 2016 to 2018}
-    \label{figure:strategy_trading}
-    \includegraphics[width=10cm]{strategy_trading.pdf}	
-    \end{figure}
-
-    \begin{figure}[H]
-    \centering
-    \caption{Donchian Strategy - Performance}
-    \label{figure:strategy_performance}
-    \includegraphics[width=10cm]{strategy_performance.pdf}	
-    \end{figure}
-
-    \begin{figure}[H]
-    \centering
-    \caption{Donchian Strategy vs Market}
-    \label{figure:strategy_vs_market}
-    \includegraphics[width=10cm]{strategy_vs_market}	
-    \end{figure}
-
-#+NAME: strategy-stats
-#+CAPTION: Donchian Strategy - Trading Statistics
-|                        |              AAPL |
-| Portfolio              | donchian\_channel |
-| Symbol                 |              AAPL |
-| Number of Transactions |              1600 |
-| Number of Trades       |               266 |
-| Net Trading P&L        |          13710664 |
-| Average Trade P&L      |          22258.66 |
-| Median Trade P&L       |          -8317.39 |
-| Largest Winner         |           8907160 |
-| Largest Loser          |          -1273010 |
-| Gross Profits          |          26234451 |
-| Gross Losses           |         -20313648 |
-| Std Dev Trade P&L      |          681073.7 |
-| Std Error Trade P&L    |          41759.31 |
-| Percent Positive       |            22.93% |
-| Percent Negative       |            77.97% |
-| Profit Factor          |          1.291469 |
-| Average Winning Trade  |            430073 |
-| Median Winning Trade   |          75790.28 |
-| Average Losing Trade   |         -17624.32 |
-| Average Daily P&L      |          22258.66 |
-| Median Daily P&L       |          -8317.39 |
-| Std Dev Daily P&L      |          681073.7 |
-| Std Error Daily P&L    |          41759.31 |
-| Annual Sharpe Ratio    |         0.5188061 |
-| Max Drawdown           |         -10656724 |
-| Calmar Ratio           |          1.286574 |
-| Average Win/Loss Ratio |          4.340183 |
-| Median Win/Loss Ratio  |          4.300324 |
-| Max Equity             |          16323872 |
-| Min Equity             |         -179396.2 |
-| End Equity             |          13710664 |
+\begin{table}[!htbp] \centering 
+  \caption{Trading Statistics} 
+  \label{tab:strategy_statistics} 
+\begin{tabular}{@{\extracolsep{5pt}} cc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & AAPL \\ 
+\hline \\[-1.8ex] 
+Portfolio & donchian-channel \\ 
+Symbol & AAPL \\ 
+Num.Txns & 1600 \\ 
+Num.Trades & 266 \\ 
+Net.Trading.PL & 13710664 \\ 
+Avg.Trade.PL & 22258.66 \\ 
+Med.Trade.PL & -8317.39 \\ 
+Largest.Winner & 8907160 \\ 
+Largest.Loser & -1273010 \\ 
+Gross.Profits & 26234451 \\ 
+Gross.Losses & -20313648 \\ 
+Std.Dev.Trade.PL & 681073.7 \\ 
+Std.Err.Trade.PL & 41759.31 \\ 
+Percent.Positive & 22.93233 \\ 
+Percent.Negative & 77.06767 \\ 
+Profit.Factor & 1.291469 \\ 
+Avg.Win.Trade & 430073 \\ 
+Med.Win.Trade & 75790.28 \\ 
+Avg.Losing.Trade & -99090.97 \\ 
+Med.Losing.Trade & -17624.32 \\ 
+Avg.Daily.PL & 22258.66 \\ 
+Med.Daily.PL & -8317.39 \\ 
+Std.Dev.Daily.PL & 681073.7 \\ 
+Std.Err.Daily.PL & 41759.31 \\ 
+Ann.Sharpe & 0.5188061 \\ 
+Max.Drawdown & -10656724 \\ 
+Profit.To.Max.Draw & 1.286574 \\ 
+Avg.WinLoss.Ratio & 4.340183 \\ 
+Med.WinLoss.Ratio & 4.300324 \\ 
+Max.Equity & 16323872 \\ 
+Min.Equity & -179396.2 \\ 
+End.Equity & 13710664 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
 
 
-#+NAME: buyhold-stats
-#+CAPTION: Buy & Hold - Trading Statistics
-| Portfolio              | "buyHold" |
-| Symbol                 |      AAPL |
-| Number of Transactions |         2 |
-| Number of Trades       |         1 |
-| Net Trading P&L        |   3100136 |
-| Average Trade P&L      |   3100136 |
-| Median Trade P&L       |   3100136 |
-| Largest Winner         |   3100136 |
-| Largest Loser          |         0 |
-| Gross Profits          |   3100136 |
-| Gross Losses           |         0 |
-| Std Dev Trade P&L      |        NA |
-| Std Error Trade P&L    |        NA |
-| Percent Positive       |      100% |
-| Percent Negative       |         0 |
-| Profit Factor          |        NA |
-| Average Winning Trade  |   3100136 |
-| Median Winning Trade   |   3100136 |
-| Average Losing Trade   |        NA |
-| Median Losing Trade    |        NA |
-| Average Daily P&L      |   3100136 |
-| Median Daily P&L       |   3100136 |
-| Std Dev Daily P&L      |        NA |
-| Std Error Daily P&L    |        NA |
-| Annual Sharpe Ratio    |        NA |
-| Max Drawdown           |  -1704800 |
-| Calmar Ratio           |  1.818475 |
-| Average Win/Loss Ratio |        NA |
-| Median Win/Loss Ratio  |        NA |
-| Max Equity             |   4616936 |
-| Min Equity             |  -15223.2 |
-| End Equity             |   3100136 |
-* Conclusion
 
+
+
+	\begin{figure}[H]
+		\centering
+		\caption{Donchian Channel Strategy}
+		\label{img:donchian-strategy}
+		\includegraphics[width = 10cm]{strategy_trading}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\caption{Donchian Channel Strategy - Performance}
+		\label{img:donchian-performance}
+		\includegraphics[width = 10cm]{strategy_performance}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\caption{Donchian Channel Strategy vs Buy \& Hold}
+		\label{img:donchian-vs-buyhold}
+		\includegraphics[width = 10cm]{strategy_vs_market}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\caption{Relative Performance}
+		\label{img:relative-performance}
+		\includegraphics[width = 10cm]{relative_performance}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\caption{Donchian Strategy Summary}
+		\label{img:strategy_summary}
+		\includegraphics[width = 10cm]{portfolio_summary}
+	\end{figure}
