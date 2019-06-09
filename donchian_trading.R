@@ -8,7 +8,7 @@ library(quantstrat)
 library(lattice)
 library(quantmod)
 library(xts)
-library(stargazer)
+library(xtable)
 library(lubridate)
 options(scipen=999)
 
@@ -141,7 +141,7 @@ chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
 tstats = t(tradeStats(donchian_strategy, 'AAPL'))
-stargazer(tstats)
+xtable(tstats)
 
 mk <- mktdata['1990-01-01::2018-12-31']
 mk.df <- data.frame(Date=time(mk),coredata(mk))
@@ -184,7 +184,7 @@ chart.Posn("buyHold", Symbol = "AAPL")
 
 tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold 
-stargazer(tstats_buyhold)
+xtable(tstats_buyhold)
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
@@ -236,7 +236,7 @@ ff_factors <- ff_factors["1990/20181228"]
 # FF 3 Factor Model
 model <- lm(returns ~ MktRf + SMB + HL, data=ff_factors)
 summary(model)
-stargazer(model)
+xtable(model)
 
 pf <- getPortfolio(donchian_strategy)
 xyplot(pf$summary, type = "h", col = 4)
