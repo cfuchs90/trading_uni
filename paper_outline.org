@@ -1,0 +1,16 @@
+* Indroduction
+** Literature Review
+
+* Strategies
+** Data 
+** Buy and Hold Strategy
+*** Description of the Strategy
+** Donchian Channel Strategy
+*** Description of the Strategy
+
+* Results
+** Buy & Hold Strategy
+** Donchian Channel Strategy
+** Donchian Channel Strategy vs Buy & Hold
+
+* Conclusion

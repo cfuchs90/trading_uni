@@ -17,6 +17,12 @@
  \end{equation}
 
 * Strategies
+** Data
+For the purpose of backtesting the aforementioned strategy the daily adjusted closing stock prices of Apple (Ticker: AAPL) was used. The Data was
+downloaded from Yahoo Finance and spans from 1st January 1980 to the 1st January of 2018.
+The Data was split into two parts. The first part, which spans from 1980 to 1990 was used for the purpose of optimization. 
+Particularly the number of days observed for the Donchian Channel was optimized. The second part from 1990 to 2018 was used to test the profitability
+of the strategy with the optimized parameter. 
 
 ** Buy and Hold
    \label{sec:buyhold}
@@ -107,43 +113,43 @@ End.Equity & 3100136 \\
 ** Donchian Channel Strategy
    \label{sec:donchian}
 
-Technical Trading strategies are usually based off of some quantitative indicator, which generates the respective buy or sell signals. In this paper, the Donchian Channel has been chosen to demonstrate a typical quantitative strategy.
-The Donchian Channel has been invented by Richard Donchian in the 1970's and received a wider recognition after the Turtle Traders (see Appendix X) publicized their use of it. The system presented in this paper can be classified as
-as breakout system, since it generates a buy signal whenever the closing price is greater than the upper bound of the Donchian Channel and a short signal is triggered whenever the asset has a closing price below the lower bound.
+Technical Trading strategies are usually based off of some quantitative indicator, which generates the respective buy or sell signals. 
+In this paper, the Donchian Channel has been chosen to demonstrate a typical quantitative strategy.
+The Donchian Channel has been invented by Richard Donchian in the 1970's and received a wider recognition after the Turtle Traders (see Appendix X)
+ publicized their use of it. The system presented in this paper can be classified as as breakout system, since it generates a buy signal whenever 
+the closing price is greater than the upper bound of the Donchian Channel and a short signal is triggered whenever the asset has a closing price 
+below the lower bound.
 
-** Data
-For the purpose of backtesting the aforementioned strategy the daily adjusted closing stock prices of Apple (Ticker: AAPL) was used. The Data was downloaded from Yahoo Finance and spans from 1st January 1980 to the 1st January of 2018.
-The Data was split into two parts. The first part, which spans from 1980 to 1990 was used for the purpose of optimization. Particularly the number of days observed for the Donchian Channel was optimized.
-The second part from 1990 to 2018 was used to test the profitability of the strategy with the optimized parameter. 
         
-** Indicator
-The indicator chosen for the backtest is called the **Donchian Channel**. It was invented by Richard Donchian in the 1970's and falls under the category of trend following indicators. It was used with great success by Richard Dennis
-who used it to train the Turtle Traders (**enter reference here**). Particularly its simplicity makes it a good candidate for backtesting since it is really easy to compute and thus makes it not computationally expensive.
-The indicator consists in its simplest form of an upper bound and a lower bound. The upper bound consists of the highest price of the last /n/ days, whereas the lower bound consists of the lowest price of the last /n/ days.
-The more complex indicator also consists of a middle line, which is simply an average of the aforementioned upper and lower bounds. However, in this paper it was not used and is therefore not mentioned in the following mathamtical
-representation of the indicator.
+*** Indicator
+  The indicator chosen for the backtest is called the **Donchian Channel**. It was invented by Richard Donchian in the 1970's and falls under the category of trend following indicators. It was used with great success by Richard Dennis
+  who used it to train the Turtle Traders (**enter reference here**). Particularly its simplicity makes it a good candidate for backtesting since it is really easy to compute and thus makes it not computationally expensive.
+  The indicator consists in its simplest form of an upper bound and a lower bound. The upper bound consists of the highest price of the last /n/ days, whereas the lower bound consists of the lowest price of the last /n/ days.
+  The more complex indicator also consists of a middle line, which is simply an average of the aforementioned upper and lower bounds. However, in this paper it was not used and is therefore not mentioned in the following mathamtical
+  representation of the indicator.
 
 
-\begin{align}
-Upper \;Channel\; = Max(p_{1}, p_{2}, ..., p_{n}) \\
-Lower \;Channel\; = Min(p_{1}, p_{2}, ..., p_{n})
-\end{align}
+  \begin{align}
+  Upper \;Channel\; = Max(p_{1}, p_{2}, ..., p_{n}) \\
+  Lower \;Channel\; = Min(p_{1}, p_{2}, ..., p_{n})
+  \end{align}
 
-** Strategy
-While it is possible to use the Donchian Channel as a countertrend strategy, the following trend following strategy was used for the purpose of this paper:
-
-*** Mathematical Representation of Buy and Sell Decisions
-
-A long signal is triggered, whenever the closing price of the current period lies above the upper bound and a short signal is generated whenever the closing price of the current period falls below the lower bound. Although plenty
-of possible signals to exit the positions exist, in this paper a sell signal exits a long trade and a short signal exits a long trade. 
-The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
+*** Strategy
+ While it is possible to use the Donchian Channel as a countertrend strategy, the following trend following strategy was used for the purpose of this paper:
+ A long signal is triggered, whenever the closing price of the current period lies above the upper bound and a short signal is generated whenever the closing price of the current period falls below the lower bound. Although plenty
+ of possible signals to exit the positions exist, in this paper a sell signal exits a long trade and a short signal exits a long trade. 
+ The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
 
 * Results
-** Descrition of Results
-Figure \ref{img:donchian-strategy} shows the strategy and its transactions from January 2016 to December 2018. It becomes apparent that the strategy executed multiple long and multiple short orders during the observed period.
-However, most of the orders seen during this period were on the long side of the market. This is not surprising, since the market was in a clear uptrend until late 2018. Further, figure  \ref{img:donchian-strategy} shows the cumulative
-P&L and the drawdowns during span of the given time period. One can see that the strategy performed really well during some time stretches followed by severe drawdowns. The period from December 2016 to July 2017 is exemplary for this
-behaviour.
+** Buy and Hold Strategy
+** Donchian Channel Strategy 
+Figure \ref{img:donchian-strategy} shows the strategy from January 2016 to December 2018. It becomes apparent that the strategy executed multiple 
+long and multiple short orders during the observed period. However, most of the orders seen during this period were on the long side of the market. 
+This is not surprising, since the market was in a clear uptrend until late 2018. Further, figure  \ref{img:donchian-strategy} shows the cumulative
+P&L and the drawdowns during span of the given time period. One can see that the strategy exhibits a real volative cumulative P&L which indicates that
+the strategy is somewhat risky. However it should also be noted, that the strategy performed really well, compared to the B&H strategy, during the 
+downtrend in late 2018. This is due to the fact, that the Donchian Channel strategy is a trend following strategy and shorts the market during downtrends,
+which explains its superior performance in this instance.
 
 	\begin{figure}[H]
 		\centering
@@ -152,9 +158,16 @@ behaviour.
 		\includegraphics[width = 10cm]{strategy_trading}
 	\end{figure}
 
-Looking at figure \ref{img:donchian-performance} on can see the performance of the strategy over the whole time frame. Comparing the cumulative return of the strategy it becomes apparent that it is a lot more volatile than the 
-B&H strategy which could be seen in figure \ref{img:buyhold-performance}. Also it can be noted, that the Donchian Channel strategy fared slightly better than the B&H strategy from the period of 1990 to about 2005. However, one can
-also see that it exhibits a much higher volatitily in its cumulative return. 
+\newpage
+
+Looking at figure \ref{img:donchian-performance} one can see the performance of the strategy over the whole time frame. Comparing the cumulative return of
+the strategies it becomes apparent that it is a lot more volatile than the B&H strategy which could be seen in figure \ref{img:buyhold-performance}. 
+Also it can be noted, that the Donchian Channel strategy fared slightly
+better than the B&H strategy from the period of 1990 to about 2005. However, one can also see that it exhibits a much higher volatility in its cumulative
+return. But it is also clearly visible, that the Donchian Channel strategy exhibits much more severe and also more steady drawdowns during the observed 
+timespan.
+Also it is noticable, that the daily returns of the strategy, which can be seen in the middle of the three graphs, is much smaller than the daily returns
+of the corresponding B&H strategy.
 
 
 	\begin{figure}[H]
@@ -163,6 +176,29 @@ also see that it exhibits a much higher volatitily in its cumulative return.
 		\label{img:donchian-performance}
 		\includegraphics[width = 10cm]{strategy_performance}
 	\end{figure}
+
+
+Table \ref{tab:strategy_statistics} shows the most important statistics concerning the strategy. It can be seen that the end equity of the strategy is $13710664
+which means that the strategy yielded an astonishing return of *1371.066%* over the observed time period. Further, 1600 transactions where executed which 
+netted 266 trades. Since every trade consists of a buy and a sell order, it seems strange that there were 1600 transactions executs in total. 
+But this is due to the fact, that the strategy executes a long order when the signal is given regardless of the fact that another long order is still
+open. This leads to a pyramiding position with multiple open long order all of which get closed when the first exit signal is triggered. 
+This phenomenon can be observed in figure \ref{img:donchian-strategy} in the period from December 2016 to July 2017. In this period the strategy
+initiated multiple long orders which were executed according to the rules stated in section \ref{sec:donchian} and a single sell order for all open long
+positions has been triggered when the exit signal was initiated. 
+
+The strategy also displays an average trading P&L of $22254.66 whereas its median trading P&L is a negative -$8317.39. Further the largest winning trade
+during the course of this backtest was $8907160 and the largest losing trade -$1273010. The standard deviation of the Trading P&L is $681073.7. Which 
+is more than half of the initial equity of 1 million dollars. 
+
+The average winning trade netted $430073 and the average losing trade a negative $99090.97. It becomes obvious that on average the strategy lost a higher
+amount per trade than it made in profit.
+
+
+Also strategy generated an annualized sharp ratio of 0.5188 which means that the strategy yields only half its risk. This is obviously not a good
+ indication of its quality.
+
+** Buy & Hold vs Donchian Channel Strategy 
 
 	\begin{figure}[H]
 		\centering
@@ -178,13 +214,26 @@ also see that it exhibits a much higher volatitily in its cumulative return.
 		\includegraphics[width = 10cm]{relative_performance}
 	\end{figure}
 
-Table \ref{tab:stategy_statistics} shows the most important statistics concerning the strategy. It can be seen that the end equity of the strategy is $13710664 which means that the strategy yielded a return of *XXX*% over the observed
-time period. Further, 1600 transactions where executed which netted 266 trades. Since every trade consists of a buy and a sell order, it seems strange that there were 1600 transactions executs in total. But this is due to the fact,
-that the strategy executes a long order when the signal is given regardless of the fact that another long order is still open. This leads to a pyramiding position with multiple open long order all of which get closed when the first
-exit signal is triggered. This phenomenon can be observed in figure \ref{img:donchian-strategy} in the period from December 2016 to July 2017. In this period the strategy initiated muliple long orders which were executed according 
-to the rules specified in the accompanying R Script and a single sell order for all open long positions has been triggered when the exit signal was initiated. 
+*** Fama-French 3 Factor Model
 
+   As can be seen in table \ref{tab:ff-regression} the only factor that explained the return of the strategy is the *SMB* factor. Also it can be noted, that
+   the additional alpha (here denoted by the intercept) is insignificantly small. 
 
+\begin{table}[ht]
+\centering
+\caption{Fama French 3 Factor Model} 
+\label{tab:ff-regression} 
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & 0.00001931885 & 0.00001786606 & 1.0813 & 0.2796 \\ 
+  MktRf & -0.00002635795 & 0.00001623392 & -1.6236 & 0.1045 \\ 
+  SMB & 0.00007188758 & 0.00003110713 & 2.3110 & 0.0209 \\ 
+  HL & 0.00000027617 & 0.00003033579 & 0.0091 & 0.9927 \\ 
+   \hline
+\end{tabular}
+\end{table}
 #+BEGIN_COMMENT
 #\begin{table}[!Htbp] \centering 
 %  \caption{Strategy Trading Statistics} 
@@ -277,26 +326,6 @@ Portfolio & donchian-channel & buyHold \\
 \end{table}
 
 
-** Fama-French 3 Factor Model
-
-   As can be seen in table \ref{tab:ff-regression} the only factor that explained the return of the strategy is the *SMB* factor. Also it can be noted, that
-   the additional alpha (here denoted by the intercept) is insignificantly small. 
-
-\begin{table}[ht]
-\centering
-\caption{Fama French 3 Factor Model} 
-\label{tab:ff-regression} 
-\begin{tabular}{rrrrr}
-  \hline
- & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
-  \hline
-(Intercept) & 0.00001931885 & 0.00001786606 & 1.0813 & 0.2796 \\ 
-  MktRf & -0.00002635795 & 0.00001623392 & -1.6236 & 0.1045 \\ 
-  SMB & 0.00007188758 & 0.00003110713 & 2.3110 & 0.0209 \\ 
-  HL & 0.00000027617 & 0.00003033579 & 0.0091 & 0.9927 \\ 
-   \hline
-\end{tabular}
-\end{table}
 # \begin{table}[!htbp] \centering 
 #   \caption{Fama French 3 Factor Model} 
 #   \label{} 

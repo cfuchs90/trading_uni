@@ -140,6 +140,7 @@ updatePortf(donchian_strategy)
 updateAcct(donchian_strategy)
 updateEndEq(donchian_strategy)
 chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
+#chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2000::2010')
 
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
@@ -186,7 +187,7 @@ updateEndEq(Account = "buyHold")
 chart.Posn("buyHold", Symbol = "AAPL")
 
 tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
-tstats_buyhold 
+tstats_buyhold
 xtable(tstats_buyhold)
 
 #Performance Summary
@@ -215,9 +216,12 @@ buyhold_total_return
 strategy_total_return <- (as.numeric(tstats[length(tstats)]) / start_equity) * 100
 strategy_total_return
 
+times_market <- as.numeric(tstats[length(tstats)]) / as.numeric(tstats_buyhold[length(tstats_buyhold)])
+times_market
+
 #---- Relative Performance -----
 chart.RelativePerformance(returns, return_buyhold,
-                          colorset = c("red", "blue"), lwd = 2, 
+                          colorset = c("red", "blue"), lwd = 2,
                           legend.loc = "topleft")
 
 #---- Fama French 3 Factor Model ----
@@ -235,7 +239,7 @@ ff_factors$Date <-  ymd(ff_factors$Date)
 ff_date <- ff_factors$Date
 ff_factors <- ff_factors[, -1]
 
-# Rename the columns 
+# Rename the columns
 colnames(ff_factors) <- c("MktRf", "SMB", "HL", "RF")
 
 # Create an XTS Object
