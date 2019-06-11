@@ -8,8 +8,9 @@ library(quantstrat)
 library(lattice)
 library(quantmod)
 library(xts)
-library(stargazer)
+library(xtable)
 library(lubridate)
+library(fBasics)
 options(scipen=999)
 
 options(repr.plot.width = 6, repr.plot.height = 4)
@@ -21,10 +22,12 @@ initDate <- "1990-01-01"
 startDate <- "1990-01-01"
 endDate <- "2018-12-31"
 
-getSymbols("AAPL", from = startDate, to = endDate)#, from = startDate, to = endDate, adjusted = TRUE)
+getSymbols("AAPL", from = startDate, to = endDate)
 AAPL <- na.omit(AAPL)
 colnames(AAPL) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
-                                        # Set up initial equity and transaction costs
+# Chart the Series
+chartSeries(AAPL, theme = 'white')
+# Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
 fee = -10 # Transaction fee of $2
@@ -141,7 +144,7 @@ chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
 tstats = t(tradeStats(donchian_strategy, 'AAPL'))
-stargazer(tstats)
+xtable(tstats)
 
 mk <- mktdata['1990-01-01::2018-12-31']
 mk.df <- data.frame(Date=time(mk),coredata(mk))
@@ -184,7 +187,7 @@ chart.Posn("buyHold", Symbol = "AAPL")
 
 tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold 
-stargazer(tstats_buyhold)
+xtable(tstats_buyhold)
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
@@ -192,7 +195,6 @@ colnames(returns) = 'Dochian Strategy'
 returns <- returns/100
 charts.PerformanceSummary(returns/100, colorset = 'darkblue')
 #
-# ---- TODO Fix PerformanceSummary Plot of Buy and Hold
 return_buyhold <- PortfReturns(Account = "buyHold")
 colnames(return_buyhold) = 'Buy and Hold'
 return_buyhold <- return_buyhold/100
@@ -204,7 +206,14 @@ charts.PerformanceSummary(return_both, geometric = FALSE,
                            main = 'Donchian Channel Strategy vs Market')
 #
 #
-t(perTradeStats('buyHold',"AAPL"))
+buyhold_per_trade_stats <- t(perTradeStats('buyHold',"AAPL"))
+buyhold_per_trade_stats
+
+# Total returns over the observed time perios
+buyhold_total_return <- (as.numeric(tstats_buyhold[length(tstats_buyhold)]) / start_equity) * 100
+buyhold_total_return
+strategy_total_return <- (as.numeric(tstats[length(tstats)]) / start_equity) * 100
+strategy_total_return
 
 #---- Relative Performance -----
 chart.RelativePerformance(returns, return_buyhold,
@@ -236,7 +245,24 @@ ff_factors <- ff_factors["1990/20181228"]
 # FF 3 Factor Model
 model <- lm(returns ~ MktRf + SMB + HL, data=ff_factors)
 summary(model)
-stargazer(model)
+xtable(model, digits = c(0, 11, 11, 4, 4))
 
-pf <- getPortfolio(donchian_strategy)
-xyplot(pf$summary, type = "h", col = 4)
+# Portfolio Summary Graphs
+strategy_pf <- getPortfolio(donchian_strategy)
+xyplot(strategy_pf$summary, type = "h", col = 4)
+
+buyhold_pf <- getPortfolio("buyHold")
+xyplot(buyhold_pf$summary, type = "h", col = 4)
+
+# Summary statistics of Buy & Hold strategy
+buyhold_summary <- basicStats(return_buyhold * 100)
+xtable(buyhold_summary, digits = c(0, 5))
+
+
+# Summary statistics of the Donchian Channel strategy
+strategy_summary <- basicStats(returns * 100)
+xtable(strategy_summary, digits = c(0, 5))
+
+# Tstats table for both
+tstats_table_both <- cbind(tstats, tstats_buyhold)
+xtable(tstats_table_both)

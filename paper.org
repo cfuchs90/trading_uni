@@ -4,9 +4,28 @@
 \newpage
 
 * Introduction
+
+	\begin{figure}[H]
+		\centering
+		\caption{Apple Stock - from 1990 to 2018}
+		\label{img:stock}
+		\includegraphics[width = 10cm]{stock}
+	\end{figure}
+
+ \begin{equation}
+    Calmar\;Ratio = \frac{Profit}{Maximum\;Drawdown}
+ \end{equation}
+
 * Strategies
 
 ** Buy and Hold
+   \label{sec:buyhold}
+
+   The first strategy that will be examined here is the Buy & Hold strategy. The Buy & Hold strategy does what its name suggets. At the beginning of the
+   period the asset will be bought and hold over the entire observed period. A graphical representation of the stratey applied to the Apple Stock from 
+   1990-01-01 to 2018-12-01 can be seen in figure \ref{img:buyhold-strategy}
+   This strategy also serves as the reference strategy with which the Donchian Channel strategy in chapter \ref{sec:donchian}
+
 	\begin{figure}[H]
 		\centering
 		\caption{Buy \& Hold Strategy}
@@ -14,10 +33,28 @@
 		\includegraphics[width = 10cm]{buyhold_trading}
 	\end{figure}
 
+  Figure \ref{img:buyhold-performance} shows how the strategy fared over the observed time period. It becomes apparent that the Apple Stock did not
+  not move very much during the period of 1990 to around 2004. However from 2004 onwards the Apple stock trended upwards and continued this trend
+  until late 2018 where it began a fast decellaration and dropped considerably. Unsurprisingly the volatility also increased considerably and continued
+  to increase till the end of the observed period. 
+  
+  
+	\begin{figure}[H]
+		\centering
+		\caption{Buy \& Hold Performance}
+		\label{img:buyhold-performance}
+		\includegraphics[width = 10cm]{buyhold_performance}
+	\end{figure}
+
+  As it can be seen in table \ref{tab:buyhold-trading-statistics} the strategy netted a profit of $3100136 at the end of 2018. It also exhibits a calmar
+  ratio of 1.818475. This is the ratio against which the Donchian Channel Strategy in section \ref{sec:donchian} is compared. Also compared to the 
+  Donchian Strategy a lot of measurements have been left out, since they are either non existent or the same. This is due to the fact that the Buy & Hold
+  strategy only executes two trades: one to enter the market and one to exit the market. Therefore a lot of statistics, like the standart deviation cannot
+  be determined and are therefore left out.
 
 \begin{table}[!htbp] \centering 
   \caption{Buy & Hold Trading Statistics} 
-  \label{} 
+  \label{tab:buyhold-trading-statistics} 
 \begin{tabular}{@{\extracolsep{5pt}} cc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -59,14 +96,16 @@ End.Equity & 3100136 \\
 \end{tabular} 
 \end{table} 
 
+
 	\begin{figure}[H]
 		\centering
-		\caption{Buy \& Hold Performance}
-		\label{img:buyhold-performance}
-		\includegraphics[width = 10cm]{buyhold_performance}
+		\caption{Buy \& Hold Portfolio Summary}
+		\label{img:buyhold-portfolio-summary}
+		\includegraphics[width = 10cm]{buyhold_portfolio_summary}
 	\end{figure}
 
 ** Donchian Channel Strategy
+   \label{sec:donchian}
 
 Technical Trading strategies are usually based off of some quantitative indicator, which generates the respective buy or sell signals. In this paper, the Donchian Channel has been chosen to demonstrate a typical quantitative strategy.
 The Donchian Channel has been invented by Richard Donchian in the 1970's and received a wider recognition after the Turtle Traders (see Appendix X) publicized their use of it. The system presented in this paper can be classified as
@@ -100,88 +139,11 @@ of possible signals to exit the positions exist, in this paper a sell signal exi
 The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
 
 * Results
-** Fama-French 3 Factor Model
-\begin{table}[!htbp] \centering 
-  \caption{Fama French 3 Factor Model} 
-  \label{} 
-\begin{tabular}{@{\extracolsep{5pt}}lc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
-\cline{2-2} 
-\\[-1.8ex] & returns \\ 
-\hline \\[-1.8ex] 
- MktRf & $-$0.00003 \\ 
-  & (0.00002) \\ 
-  & \\ 
- SMB & 0.0001$^{**}$ \\ 
-  & (0.00003) \\ 
-  & \\ 
- HL & 0.00000 \\ 
-  & (0.00003) \\ 
-  & \\ 
- Constant & 0.00002 \\ 
-  & (0.00002) \\ 
-  & \\ 
-\hline \\[-1.8ex] 
-Observations & 7,306 \\ 
-R$^{2}$ & 0.001 \\ 
-Adjusted R$^{2}$ & 0.001 \\ 
-Residual Std. Error & 0.002 (df = 7302) \\ 
-F Statistic & 2.701$^{**}$ (df = 3; 7302) \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-\end{table} 
-
-\begin{table}[!htbp] \centering 
-  \caption{Trading Statistics} 
-  \label{tab:strategy_statistics} 
-\begin{tabular}{@{\extracolsep{5pt}} cc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & AAPL \\ 
-\hline \\[-1.8ex] 
-Portfolio & donchian-channel \\ 
-Symbol & AAPL \\ 
-Num.Txns & 1600 \\ 
-Num.Trades & 266 \\ 
-Net.Trading.PL & 13710664 \\ 
-Avg.Trade.PL & 22258.66 \\ 
-Med.Trade.PL & -8317.39 \\ 
-Largest.Winner & 8907160 \\ 
-Largest.Loser & -1273010 \\ 
-Gross.Profits & 26234451 \\ 
-Gross.Losses & -20313648 \\ 
-Std.Dev.Trade.PL & 681073.7 \\ 
-Std.Err.Trade.PL & 41759.31 \\ 
-Percent.Positive & 22.93233 \\ 
-Percent.Negative & 77.06767 \\ 
-Profit.Factor & 1.291469 \\ 
-Avg.Win.Trade & 430073 \\ 
-Med.Win.Trade & 75790.28 \\ 
-Avg.Losing.Trade & -99090.97 \\ 
-Med.Losing.Trade & -17624.32 \\ 
-Avg.Daily.PL & 22258.66 \\ 
-Med.Daily.PL & -8317.39 \\ 
-Std.Dev.Daily.PL & 681073.7 \\ 
-Std.Err.Daily.PL & 41759.31 \\ 
-Ann.Sharpe & 0.5188061 \\ 
-Max.Drawdown & -10656724 \\ 
-Profit.To.Max.Draw & 1.286574 \\ 
-Avg.WinLoss.Ratio & 4.340183 \\ 
-Med.WinLoss.Ratio & 4.300324 \\ 
-Max.Equity & 16323872 \\ 
-Min.Equity & -179396.2 \\ 
-End.Equity & 13710664 \\ 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
-
-
-
+** Descrition of Results
+Figure \ref{img:donchian-strategy} shows the strategy and its transactions from January 2016 to December 2018. It becomes apparent that the strategy executed multiple long and multiple short orders during the observed period.
+However, most of the orders seen during this period were on the long side of the market. This is not surprising, since the market was in a clear uptrend until late 2018. Further, figure  \ref{img:donchian-strategy} shows the cumulative
+P&L and the drawdowns during span of the given time period. One can see that the strategy performed really well during some time stretches followed by severe drawdowns. The period from December 2016 to July 2017 is exemplary for this
+behaviour.
 
 	\begin{figure}[H]
 		\centering
@@ -189,6 +151,11 @@ End.Equity & 13710664 \\
 		\label{img:donchian-strategy}
 		\includegraphics[width = 10cm]{strategy_trading}
 	\end{figure}
+
+Looking at figure \ref{img:donchian-performance} on can see the performance of the strategy over the whole time frame. Comparing the cumulative return of the strategy it becomes apparent that it is a lot more volatile than the 
+B&H strategy which could be seen in figure \ref{img:buyhold-performance}. Also it can be noted, that the Donchian Channel strategy fared slightly better than the B&H strategy from the period of 1990 to about 2005. However, one can
+also see that it exhibits a much higher volatitily in its cumulative return. 
+
 
 	\begin{figure}[H]
 		\centering
@@ -211,9 +178,174 @@ End.Equity & 13710664 \\
 		\includegraphics[width = 10cm]{relative_performance}
 	\end{figure}
 
+Table \ref{tab:stategy_statistics} shows the most important statistics concerning the strategy. It can be seen that the end equity of the strategy is $13710664 which means that the strategy yielded a return of *XXX*% over the observed
+time period. Further, 1600 transactions where executed which netted 266 trades. Since every trade consists of a buy and a sell order, it seems strange that there were 1600 transactions executs in total. But this is due to the fact,
+that the strategy executes a long order when the signal is given regardless of the fact that another long order is still open. This leads to a pyramiding position with multiple open long order all of which get closed when the first
+exit signal is triggered. This phenomenon can be observed in figure \ref{img:donchian-strategy} in the period from December 2016 to July 2017. In this period the strategy initiated muliple long orders which were executed according 
+to the rules specified in the accompanying R Script and a single sell order for all open long positions has been triggered when the exit signal was initiated. 
+
+
+#+BEGIN_COMMENT
+#\begin{table}[!Htbp] \centering 
+%  \caption{Strategy Trading Statistics} 
+%  \label{tab:strategy_statistics} 
+%\begin{tabular}{@{\extracolsep{5pt}} cc} 
+%\\[-1.8ex]\hline 
+%\hline \\[-1.8ex] 
+% & AAPL \\ 
+%\hline \\[-1.8ex] 
+%Portfolio & donchian-channel \\ 
+%Symbol & AAPL \\ 
+%Num.Txns & 1600 \\ 
+%Num.Trades & 266 \\ 
+%Net.Trading.PL & 13710664 \\ 
+%Avg.Trade.PL & 22258.66 \\ 
+%Med.Trade.PL & -8317.39 \\ 
+%Largest.Winner & 8907160 \\ 
+%Largest.Loser & -1273010 \\ 
+%Gross.Profits & 26234451 \\ 
+%Gross.Losses & -20313648 \\ 
+%Std.Dev.Trade.PL & 681073.7 \\ 
+%Std.Err.Trade.PL & 41759.31 \\ 
+%Percent.Positive & 22.93233 \\ 
+%Percent.Negative & 77.06767 \\ 
+%Profit.Factor & 1.291469 \\ 
+%Avg.Win.Trade & 430073 \\ 
+%Med.Win.Trade & 75790.28 \\ 
+%Avg.Losing.Trade & -99090.97 \\ 
+%Med.Losing.Trade & -17624.32 \\ 
+%Avg.Daily.PL & 22258.66 \\ 
+%Med.Daily.PL & -8317.39 \\ 
+%Std.Dev.Daily.PL & 681073.7 \\ 
+%Std.Err.Daily.PL & 41759.31 \\ 
+%Ann.Sharpe & 0.5188061 \\ 
+%Max.Drawdown & -10656724 \\ 
+%Profit.To.Max.Draw & 1.286574 \\ 
+%Avg.WinLoss.Ratio & 4.340183 \\ 
+%Med.WinLoss.Ratio & 4.300324 \\ 
+%Max.Equity & 16323872 \\ 
+%Min.Equity & -179396.2 \\ 
+%End.Equity & 13710664 \\ 
+%\hline \\[-1.8ex] 
+%\end{tabular} 
+%\end{table} 
+   
+#+END_COMMENT
+
+\begin{table}[ht]
+  \caption{Trading Statistics} 
+  \label{tab:both_statistics} 
+\centering
+\begin{tabular}{rll}
+  \hline
+ & AAPL & AAPL \\ 
+  \hline
+Portfolio & donchian-channel & buyHold \\ 
+  Symbol & AAPL & AAPL \\ 
+  Num.Txns & 1600 & 2 \\ 
+  Num.Trades & 266 & 1 \\ 
+  Net.Trading.PL & 13710664 & 3100136 \\ 
+  Avg.Trade.PL & 22258.66 & 3100136 \\ 
+  Med.Trade.PL & -8317.39 & 3100136 \\ 
+  Largest.Winner & 8907160 & 3100136 \\ 
+  Largest.Loser & -1273010 & 0 \\ 
+  Gross.Profits & 26234451 & 3100136 \\ 
+  Gross.Losses & -20313648 & 0 \\ 
+  Std.Dev.Trade.PL & 681073.7 &  \\ 
+  Std.Err.Trade.PL & 41759.31 &  \\ 
+  Percent.Positive & 22.93233 & 100 \\ 
+  Percent.Negative & 77.06767 & 0 \\ 
+  Profit.Factor & 1.291469 &  \\ 
+  Avg.Win.Trade & 430073 & 3100136 \\ 
+  Med.Win.Trade & 75790.28 & 3100136 \\ 
+  Avg.Losing.Trade & -99090.97 &  \\ 
+  Med.Losing.Trade & -17624.32 &  \\ 
+  Avg.Daily.PL & 22258.66 & 3100136 \\ 
+  Med.Daily.PL & -8317.39 & 3100136 \\ 
+  Std.Dev.Daily.PL & 681073.7 &  \\ 
+  Std.Err.Daily.PL & 41759.31 &  \\ 
+  Ann.Sharpe & 0.5188061 &  \\ 
+  Max.Drawdown & -10656724 & -1704800 \\ 
+  Profit.To.Max.Draw & 1.286574 & 1.818475 \\ 
+  Avg.WinLoss.Ratio & 4.340183 &  \\ 
+  Med.WinLoss.Ratio & 4.300324 &  \\ 
+  Max.Equity & 16323872 & 4616936 \\ 
+  Min.Equity & -179396.2 & -15223.2 \\ 
+  End.Equity & 13710664 & 3100136 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+** Fama-French 3 Factor Model
+
+   As can be seen in table \ref{tab:ff-regression} the only factor that explained the return of the strategy is the *SMB* factor. Also it can be noted, that
+   the additional alpha (here denoted by the intercept) is insignificantly small. 
+
+\begin{table}[ht]
+\centering
+\caption{Fama French 3 Factor Model} 
+\label{tab:ff-regression} 
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & 0.00001931885 & 0.00001786606 & 1.0813 & 0.2796 \\ 
+  MktRf & -0.00002635795 & 0.00001623392 & -1.6236 & 0.1045 \\ 
+  SMB & 0.00007188758 & 0.00003110713 & 2.3110 & 0.0209 \\ 
+  HL & 0.00000027617 & 0.00003033579 & 0.0091 & 0.9927 \\ 
+   \hline
+\end{tabular}
+\end{table}
+# \begin{table}[!htbp] \centering 
+#   \caption{Fama French 3 Factor Model} 
+#   \label{} 
+# \begin{tabular}{@{\extracolsep{5pt}}lc} 
+# \\[-1.8ex]\hline 
+# \hline \\[-1.8ex] 
+#  & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+# \cline{2-2} 
+# \\[-1.8ex] & returns \\ 
+# \hline \\[-1.8ex] 
+#  MktRf & $-$0.00003 \\ 
+#   & (0.00002) \\ 
+#   & \\ 
+#  SMB & 0.0001$^{**}$ \\ 
+#   & (0.00003) \\ 
+#   & \\ 
+#  HL & 0.00000 \\ 
+#   & (0.00003) \\ 
+#   & \\ 
+#  Constant & 0.00002 \\ 
+#   & (0.00002) \\ 
+#   & \\ 
+# \hline \\[-1.8ex] 
+# Observations & 7,306 \\ 
+# R$^{2}$ & 0.001 \\ 
+# Adjusted R$^{2}$ & 0.001 \\ 
+# Residual Std. Error & 0.002 (df = 7302) \\ 
+# F Statistic & 2.701$^{**}$ (df = 3; 7302) \\ 
+# \hline 
+# \hline \\[-1.8ex] 
+# \textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+# \end{tabular} 
+# \end{table} 
+
+
+
+
+
+
+
+
+
 	\begin{figure}[H]
 		\centering
 		\caption{Donchian Strategy Summary}
 		\label{img:strategy_summary}
 		\includegraphics[width = 10cm]{portfolio_summary}
 	\end{figure}
+
+* Conlusion
+
+It could be seen, that the Donchian Channel Strategy did not exhibit a singificant amount of alpha.
