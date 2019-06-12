@@ -181,23 +181,43 @@ of the corresponding B&H strategy.
 
 Table \ref{tab:strategy_statistics } shows the most important statistics concerning the strategy. It can be seen that the end equity of the strategy is $13710664
 which means that the strategy yielded an astonishing return of *1371.066%* over the observed time period. Further, 1600 transactions where executed which 
-netted 266 trades. Since every trade consists of a buy and a sell order, it seems strange that there were 1600 transactions executs in total. 
+resulted in 266 trades. Since every trade consists of a buy and a sell order, it seems strange that there were 1600 transactions executs in total. 
 But this is due to the fact, that the strategy executes a long order when the signal is given regardless of the fact that another long order is still
 open. This leads to a pyramiding position with multiple open long order all of which get closed when the first exit signal is triggered. 
 This phenomenon can be observed in figure \ref{img:donchian-strategy} in the period from December 2016 to July 2017. In this period the strategy
 initiated multiple long orders which were executed according to the rules stated in section \ref{sec:donchian} and a single sell order for all open long
 positions has been triggered when the exit signal was initiated. 
 
+Also the strategy gained $26234451 in gross profits over the course of the 28 years of data observed while gross losses amounted to $20313648. 
 The strategy also displays an average trading P&L of $22254.66 whereas its median trading P&L is a negative -$8317.39. Further the largest winning trade
 during the course of this backtest was $8907160 and the largest losing trade -$1273010. The standard deviation of the Trading P&L is $681073.7. Which 
 is more than half of the initial equity of 1 million dollars. 
 
-The average winning trade netted $430073 and the average losing trade a negative $99090.97. It becomes obvious that on average the strategy lost a higher
-amount per trade than it made in profit.
+
+Also the strategy generated an average daily P&L of $22258.66 while the median daily P&L is a negative $8317.39. This means that at least 50% all trades
+resulted in a loss.
+This becomes even more apparent if one takes in consideration the percentages of positive vs negative trades. Only 22.93% of all trades resulted in a positive
+result, while the remaining 77.06% resulted in losses. This is implies that the majority of the profits come from a few large positive trades while most 
+of the time, the strategy actually lost money.
 
 
-Also strategy generated an annualized sharp ratio of 0.5188 which means that the strategy yields only half its risk. This is obviously not a good
- indication of its quality.
+
+While the above stated statistics were more profit related, it is also advisable to consider the risk involved in applying this strategy. 
+It can be seen that the largest drawdown of the strategy was a negative of $10656724, which is more than the inital equity at the start of the backtest.
+A first look at how an average individual trade fared can be seen looking at the value for the average winning and the average losing trade.
+The average winning trade grossed a value of $430073 and the average losing trade a negative value of $99090.97. Taking these two values in relationshio
+to each other, the average winning vs average losing trade ratio can be computed. In this case, the strategy generated a value of 4.340183, which means
+that an average trade generated roundabout 4 times the amount of profit that it took risk. 
+
+Another important risk metric is the annual sharp ratio. It measures the returns in units of risk and therefore gives an indication of how much return was
+generated compared to the risk involved. Again, this metric can be seen in table \ref{tab:strategy_statistics}. The strategy generated an annual sharp
+ratio of 0.5188, which means that the strategy only gained half of its risk during the course of the backtest. This is a really low number and according
+to is, the strategy should not be implemented in a real world scenario.
+
+The statistic on which the whole optimization an backtest was based on is the Calmar Ratio. The strategy generated a calmar ratio of 1.2865 in this backtest.
+Therefore the strategy yielded only about 1.3 time the profit that it generated in the maximum drawdown.
+
+
 
 ** Buy & Hold vs Donchian Channel Strategy 
 
