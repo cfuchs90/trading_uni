@@ -1,3 +1,6 @@
+install.packages(quantstrat)
+install.packages(quantmod)
+
 library(quantstrat)
 library(quantmod)
 
@@ -6,8 +9,8 @@ currency("USD")
 
 # set up the financial asset used and the dates
 
-initDate <- "1960-01-01"
-startDate <- "1960-01-01"
+initDate <- "1980-01-01"
+startDate <- "1980-01-01"
 endDate <- "1989-12-31"
 
 getSymbols("AAPL", from = startDate, to = endDate)#, from = startDate, to = endDate, adjusted = TRUE)

@@ -4,6 +4,14 @@
 
 # parameter 11
 
+install.packages(quantstrat)
+install.packages(lattice)
+install.packages(quantmod)
+install.packages(xts)
+install.packages(xtable)
+install.packages(lubridate)
+install.packages(fBasics)
+
 library(quantstrat)
 library(lattice)
 library(quantmod)
@@ -25,8 +33,7 @@ endDate <- "2018-12-31"
 getSymbols("AAPL", from = startDate, to = endDate)
 AAPL <- na.omit(AAPL)
 colnames(AAPL) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
-# Chart the Series
-chartSeries(AAPL, theme = 'white')
+
 # Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
@@ -270,3 +277,14 @@ xtable(strategy_summary, digits = c(0, 5))
 # Tstats table for both
 tstats_table_both <- cbind(tstats, tstats_buyhold)
 xtable(tstats_table_both)
+
+# Chart the whole series
+initDate <- "1980-01-01"
+startDate <- "1980-01-01"
+endDate <- "2018-12-31"
+
+getSymbols("AAPL", from = startDate, to = endDate)
+AAPL <- na.omit(AAPL)
+colnames(AAPL) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
+                                        # Chart the Series
+chartSeries(AAPL, theme = 'white')

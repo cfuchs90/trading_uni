@@ -5,12 +5,12 @@
                      '(("article" "11pt")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem")))
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
@@ -31,32 +31,35 @@
     "capt-of"
     "hyperref")
    (LaTeX-add-labels
-    "sec:orga6561c5"
+    "sec:orgeda4966"
+    "sec:org29878ee"
     "img:stock"
-    "sec:orgc15d173"
-    "sec:orgcfbb1a7"
-    "sec:org7ed0b38"
+    "sec:org19ccdca"
+    "sec:org0d2efc3"
     "sec:buyhold"
+    "sec:org9574b4f"
+    "sec:donchian"
+    "sec:org487c59a"
+    "sec:orge711e8a"
+    "sec:org5e127bd"
+    "sec:org6cfb2b4"
     "img:buyhold-strategy"
     "img:buyhold-performance"
     "tab:buyhold-trading-statistics"
     "img:buyhold-portfolio-summary"
-    "sec:org4b653cc"
-    "sec:donchian"
-    "sec:org8cac4ae"
-    "sec:orgf8e7ba7"
-    "sec:orgbc54851"
-    "sec:org5b35a03"
-    "sec:org51bd67b"
+    "sec:org820330a"
     "img:donchian-strategy"
     "img:donchian-performance"
-    "sec:org6c9ecea"
+    "sec:org9db585b"
     "img:donchian-vs-buyhold"
     "img:relative-performance"
-    "sec:orgb9053f4"
+    "sec:org7f674bb"
     "tab:ff-regression"
     "tab:both_statistics"
     "img:strategy_summary"
-    "sec:org6cb3586"))
+    "sec:org8af3c9f"
+    "sec:org2de181c"
+    "sec:org373f55e"
+    "sec:orgc45141f"))
  :latex)
 
