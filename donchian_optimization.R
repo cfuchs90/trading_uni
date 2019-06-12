@@ -1,5 +1,5 @@
-install.packages(quantstrat)
-install.packages(quantmod)
+install.packages("quantstrat")
+install.packages("quantmod")
 
 library(quantstrat)
 library(quantmod)

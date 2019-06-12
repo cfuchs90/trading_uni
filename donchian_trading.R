@@ -4,13 +4,13 @@
 
 # parameter 11
 
-install.packages(quantstrat)
-install.packages(lattice)
-install.packages(quantmod)
-install.packages(xts)
-install.packages(xtable)
-install.packages(lubridate)
-install.packages(fBasics)
+install.packages("quantstrat")
+install.packages("lattice")
+install.packages("quantmod")
+install.packages("xts")
+install.packages("xtable")
+install.packages("lubridate")
+install.packages("fBasics")
 
 library(quantstrat)
 library(lattice)

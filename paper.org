@@ -3,6 +3,12 @@
 #+LATEX: \setlength\parindent{0pt}
 
 \newpage
+#+LATEX: \listoffigures
+\newpage
+#+LATEX: \listoftables
+
+\newpage
+
 
 * Introduction
 
@@ -11,11 +17,11 @@
    31st December 2018. The data was downloaded from Yahoo Finance using the /quantmod/ module from the R statistical programming language.
    The data was split in two parts. The first part of the data, which spans from 12th December 1980 to 31st December of 1989 was used to optimize the parameter for 
    the Donchian strategy, which will be further elaborated in section \ref{sec:strategy}. The other part was used for the actual backtesting of the strategy and the analysis 
-   thereof. Also it was used for the backtest and analysis of the results for the Buy \& Hold strategy, which will be discussed in the following section.
+   thereof. Also it was used for the backtest and analysis of the results for the Buy & Hold strategy, which will be discussed in the following section.
 
 	\begin{figure}[H]
 		\centering
-		\caption{Apple Stock - from 1980 to 2018}
+		\caption{Apple Stock - from December 1980 to December 2018}
 		\label{img:stock}
 		\includegraphics[width = 10cm]{stock}
 	\end{figure}
@@ -68,19 +74,37 @@ below the lower bound.
  The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
 
 * Results
+
 ** Buy and Hold Strategy
+The upper chart of figure \ref{img:buyhold_trading} shows the Buy \& Hold strategy over the entire trading period from 1st January 1990 to the 31st December 2018.
+The green arrow at the beginning of the series indicates the long entry of the strategy and the red arrow at the end of the period indicates the exit of the previous long
+trade. More generally, the green arrow indicates that a long trade was opened and the red arrow indicates that a short order was executed. In this instance the short order
+mereley cancels the long order, but there will be instances in den Donchian Channel Strategy in section \ref{sec:strategy} where one can see multiple long or short orders 
+executed consecutively. However, since the Buy \& Hold Strategy consists of only two trades, this behavoiur cannnot be observed here.
+
+It becomes apparant that the Apple stock did not manage to make significant advances in the period of January 1990 up until roughly January 2005 when a timewise long uptrend
+started that lasted until the end of 2018. However, in late 2018 the Apple stock entered a sharp decline, which erased much of the gains that it accumulated in the preceding
+periods.
+
    
-  Figure \ref{img:buyhold-performance} shows how the strategy fared over the observed time period. It becomes apparent that the Apple Stock did not
-  not move very much during the period of 1990 to around 2004. However from 2004 onwards the Apple stock trended upwards and continued this trend
-  until late 2018 where it began a fast decellaration and dropped considerably. Unsurprisingly the volatility also increased considerably and continued
-  to increase till the end of the observed period. 
-  
 	\begin{figure}[H]
 		\centering
 		\caption{Buy \& Hold Strategy}
 		\label{img:buyhold-strategy}
 		\includegraphics[width = 10cm]{buyhold_trading}
 	\end{figure}
+
+This becomes more obvious by looking at the upper chart of figure \ref{img:buyhold-performance} which depicts the cumulative P&L of the Apple stock.
+Again, it can be seen that the cumulative P&L of it did not move much until January 2005. Since then it grew, with some hickups in the meantime, until late 2018 when a
+sharp downtrand in the cumulative P&L can be observed. This is due to the above mentioned sharp decline in Apple's stock price. It also comes as no surprise, that the daily 
+returns, which can be seen in the middle chart of figure \ref{img:buyhold-performance}, became more erratic since the beginning of the stocks long lasting uptrend and even
+more volatile during the sharp decline in late 2018.
+
+The lower chart in figure \ref{img:buyhold-performance} shows the drawdowns the stock exhibited during the observed period. Looking at this chart, a few drawdowns really stand out.
+There were 2 drawdowns which arrived in sucession in the period starting around 2012 to early 2017 which look like a *W* in the chart. 
+Also at this juncture it comes as no surprise, that the largest drawdown happend in late 2018, when the stock began its sharp decline. Just by looking at the chart, one can clearyl
+see that this was the most severere drawdown during the course of the whole period.
+  
 
   
   
@@ -91,11 +115,13 @@ below the lower bound.
 		\includegraphics[width = 10cm]{buyhold_performance}
 	\end{figure}
 
-  As it can be seen in table \ref{tab:buyhold-trading-statistics} the strategy netted a profit of $3100136 at the end of 2018. It also exhibits a calmar
-  ratio of 1.818475. This is the ratio against which the Donchian Channel Strategy in section \ref{sec:donchian} is compared. Also compared to the 
-  Donchian Strategy a lot of measurements have been left out, since they are either non existent or the same. This is due to the fact that the Buy & Hold
-  strategy only executes two trades: one to enter the market and one to exit the market. Therefore a lot of statistics, like the standart deviation cannot
-  be determined and are therefore left out.
+Table \ref{tab:buyhold-trading-statistics} lists the most important statistics that the backtest of this strategy has generated. It should be noted, that a lot of the 
+statistics show the same value and for some other statistics there is no value at all. This is due to the fact, that the Buy \& Hold strategy, like mentioned before,
+consists of only two transactions. One buy transaction and one sell transaction to cancel the buy order. Therefore a lot of statistics which incorporate the average or the
+median stay the same. Other statistics like, the average win to loss ratio cannot be calculated since the strategies only trade was a winning trade and no losing trade exists.
+Thus, no statistics which is based on losing trades can be calculated accordingly. 
+
+The strategy generated a net trading P&L and therefore an end equity of $3100136 which corresponds to a total return of 
 
 \begin{table}[!htbp] \centering 
   \caption{Buy & Hold Trading Statistics} 
@@ -150,6 +176,7 @@ End Equity & 3100136 \\
 	\end{figure}
 
 ** Donchian Channel Strategy 
+\label{sec:strategy}
 Figure \ref{img:donchian-strategy} shows the strategy from January 2016 to December 2018. It becomes apparent that the strategy executed multiple 
 long and multiple short orders during the observed period. However, most of the orders seen during this period were on the long side of the market. 
 This is not surprising, since the market was in a clear uptrend until late 2018. Further, figure  \ref{img:donchian-strategy} shows the cumulative
@@ -185,7 +212,7 @@ of the corresponding B&H strategy.
 	\end{figure}
 
 
-Table \ref{tab:strategy_statistics } shows the most important statistics concerning the strategy. It can be seen that the end equity of the strategy is $13710664
+Table \ref{tab:strategy-statistics } shows the most important statistics concerning the strategy. It can be seen that the end equity of the strategy is $13710664
 which means that the strategy yielded an astonishing return of *1371.066%* over the observed time period. Further, 1600 transactions where executed which 
 resulted in 266 trades. Since every trade consists of a buy and a sell order, it seems strange that there were 1600 transactions executs in total. 
 But this is due to the fact, that the strategy executes a long order when the signal is given regardless of the fact that another long order is still
@@ -194,77 +221,9 @@ This phenomenon can be observed in figure \ref{img:donchian-strategy} in the per
 initiated multiple long orders which were executed according to the rules stated in section \ref{sec:donchian} and a single sell order for all open long
 positions has been triggered when the exit signal was initiated. 
 
-Also the strategy gained $26234451 in gross profits over the course of the 28 years of data observed while gross losses amounted to $20313648. 
-The strategy also displays an average trading P&L of $22254.66 whereas its median trading P&L is a negative -$8317.39. Further the largest winning trade
-during the course of this backtest was $8907160 and the largest losing trade -$1273010. The standard deviation of the Trading P&L is $681073.7. Which 
-is more than half of the initial equity of 1 million dollars. 
-
-
-Also the strategy generated an average daily P&L of $22258.66 while the median daily P&L is a negative $8317.39. This means that at least 50% all trades
-resulted in a loss.
-This becomes even more apparent if one takes in consideration the percentages of positive vs negative trades. Only 22.93% of all trades resulted in a positive
-result, while the remaining 77.06% resulted in losses. This is implies that the majority of the profits come from a few large positive trades while most 
-of the time, the strategy actually lost money.
-
-
-
-While the above stated statistics were more profit related, it is also advisable to consider the risk involved in applying this strategy. 
-It can be seen that the largest drawdown of the strategy was a negative of $10656724, which is more than the inital equity at the start of the backtest.
-A first look at how an average individual trade fared can be seen looking at the value for the average winning and the average losing trade.
-The average winning trade grossed a value of $430073 and the average losing trade a negative value of $99090.97. Taking these two values in relationshio
-to each other, the average winning vs average losing trade ratio can be computed. In this case, the strategy generated a value of 4.340183, which means
-that an average trade generated roundabout 4 times the amount of profit that it took risk. 
-
-Another important risk metric is the annual sharp ratio. It measures the returns in units of risk and therefore gives an indication of how much return was
-generated compared to the risk involved. Again, this metric can be seen in table \ref{tab:strategy_statistics}. The strategy generated an annual sharp
-ratio of 0.5188, which means that the strategy only gained half of its risk during the course of the backtest. This is a really low number and according
-to is, the strategy should not be implemented in a real world scenario.
-
-The statistic on which the whole optimization an backtest was based on is the Calmar Ratio. The strategy generated a calmar ratio of 1.2865 in this backtest.
-Therefore the strategy yielded only about 1.3 time the profit that it generated in the maximum drawdown.
-
-
-
-** Buy & Hold vs Donchian Channel Strategy 
-
-	\begin{figure}[H]
-		\centering
-		\caption{Donchian Channel Strategy vs Buy \& Hold}
-		\label{img:donchian-vs-buyhold}
-		\includegraphics[width = 10cm]{strategy_vs_market}
-	\end{figure}
-
-	\begin{figure}[H]
-		\centering
-		\caption{Relative Performance}
-		\label{img:relative-performance}
-		\includegraphics[width = 10cm]{relative_performance}
-	\end{figure}
-
-*** Fama-French 3 Factor Model
-
-   As can be seen in table \ref{tab:ff-regression} the only factor that explained the return of the strategy is the *SMB* factor. Also it can be noted, that
-   the additional alpha (here denoted by the intercept) is insignificantly small. 
-
-\begin{table}[ht]
-\centering
-\caption{Fama French 3 Factor Model} 
-\label{tab:ff-regression} 
-\begin{tabular}{rrrrr}
-  \hline
- & Estimate & Standard. Erroror & t value & Pr($>$$|$t$|$) \\ 
-  \hline
-(Intercept) & 0.00001931885 & 0.00001786606 & 1.0813 & 0.2796 \\ 
-  MktRf & -0.00002635795 & 0.00001623392 & -1.6236 & 0.1045 \\ 
-  SMB & 0.00007188758 & 0.00003110713 & 2.3110 & 0.0209 \\ 
-  HL & 0.00000027617 & 0.00003033579 & 0.0091 & 0.9927 \\ 
-   \hline
-\end{tabular}
-\end{table}
-#+BEGIN_COMMENT
 \begin{table}[!Htbp] \centering 
   \caption{Strategy Trading Statistics} 
-  \label{tab:strategy_statistics} 
+  \label{tab:strategy-statistics} 
 \begin{tabular}{@{\extracolsep{5pt}} cc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
@@ -305,12 +264,58 @@ End Equity & 13710664 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
-   
-#+END_COMMENT
 
-\begin{table}[ht]
-  \caption{Trading Statistics} 
-  \label{tab:both_statistics} 
+Also the strategy gained $26234451 in gross profits over the course of the 28 years of data observed while gross losses amounted to $20313648. 
+The strategy also displays an average trading P&L of $22254.66 whereas its median trading P&L is a negative -$8317.39. Further the largest winning trade
+during the course of this backtest was $8907160 and the largest losing trade -$1273010. The standard deviation of the Trading P&L is $681073.7. Which 
+is more than half of the initial equity of 1 million dollars. 
+
+
+Also the strategy generated an average daily P&L of $22258.66 while the median daily P&L is a negative $8317.39. This means that at least 50% all trades
+resulted in a loss.
+This becomes even more apparent if one takes in consideration the percentages of positive vs negative trades. Only 22.93% of all trades resulted in a positive
+result, while the remaining 77.06% resulted in losses. This is implies that the majority of the profits come from a few large positive trades while most 
+of the time, the strategy actually lost money.
+
+
+
+While the above stated statistics were more profit related, it is also advisable to consider the risk involved in applying this strategy. 
+It can be seen that the largest drawdown of the strategy was a negative of $10656724, which is more than the inital equity at the start of the backtest.
+A first look at how an average individual trade fared can be seen looking at the value for the average winning and the average losing trade.
+The average winning trade grossed a value of $430073 and the average losing trade a negative value of $99090.97. Taking these two values in relationshio
+to each other, the average winning vs average losing trade ratio can be computed. In this case, the strategy generated a value of 4.340183, which means
+that an average trade generated roundabout 4 times the amount of profit that it took risk. 
+
+Another important risk metric is the annual sharp ratio. It measures the returns in units of risk and therefore gives an indication of how much return was
+generated compared to the risk involved. Again, this metric can be seen in table \ref{tab:strategy-statistics}. The strategy generated an annual sharp
+ratio of 0.5188, which means that the strategy only gained half of its risk during the course of the backtest. This is a really low number and according
+to is, the strategy should not be implemented in a real world scenario.
+
+The statistic on which the whole optimization an backtest was based on is the Calmar Ratio. The strategy generated a calmar ratio of 1.2865 in this backtest.
+Therefore the strategy yielded only about 1.3 time the profit that it generated in the maximum drawdown.
+
+
+
+** Buy & Hold vs Donchian Channel Strategy 
+Blabla table \ref{tab:both-statistics}
+
+	\begin{figure}[H]
+		\centering
+		\caption{Donchian Channel Strategy vs Buy \& Hold}
+		\label{img:donchian-vs-buyhold}
+		\includegraphics[width = 10cm]{strategy_vs_market}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\caption{Relative Performance}
+		\label{img:relative-performance}
+		\includegraphics[width = 10cm]{relative_performance}
+	\end{figure}
+
+\begin{table}[Ht]
+  \caption{Donchian Channel vs Buy and Hold - Trading Statistics} 
+  \label{tab:both-statistics} 
 \centering
 \begin{tabular}{rll}
   \hline
@@ -351,6 +356,29 @@ Portfolio & donchian-channel & buyHold \\
    \hline
 \end{tabular}
 \end{table}
+
+*** Fama-French 3 Factor Model
+
+   As can be seen in table \ref{tab:ff-regression} the only factor that explained the return of the strategy is the *SMB* factor. Also it can be noted, that
+   the additional alpha (here denoted by the intercept) is insignificantly small. 
+
+\begin{table}[ht]
+\centering
+\caption{Fama French 3 Factor Model} 
+\label{tab:ff-regression} 
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Standard. Erroror & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & 0.00001931885 & 0.00001786606 & 1.0813 & 0.2796 \\ 
+  MktRf & -0.00002635795 & 0.00001623392 & -1.6236 & 0.1045 \\ 
+  SMB & 0.00007188758 & 0.00003110713 & 2.3110 & 0.0209 \\ 
+  HL & 0.00000027617 & 0.00003033579 & 0.0091 & 0.9927 \\ 
+   \hline
+\end{tabular}
+\end{table}
+   
+
 
 
 # \begin{table}[!htbp] \centering 
@@ -406,10 +434,11 @@ Portfolio & donchian-channel & buyHold \\
 
 It could be seen, that the Donchian Channel Strategy did not exhibit a singificant amount of alpha.
 
-* Appendix
+
 #+LaTeX: \begin{appendices}
-** R Script for Optimization
+* Appendix
 #+NAME: Optimization Script
+**  Script for Optimization
 #+BEGIN_SRC R
 
 install.packages(quantstrat)
@@ -585,8 +614,8 @@ max_calmar_parameter
 
 #+END_SRC
 
-** R Script for Trading \& Analysis
 #+NAME: Optimization Script
+**  Script for Backtesting & Analysis
 #+BEGIN_SRC R
 
 # ----- IMPORTANT -----
