@@ -146,15 +146,15 @@ Portfolio & buyHold \\
 Symbol & AAPL \\
 Number of Transactions & 2 \\
 Number of Trades & 1 \\
-Net Trading P&L & 3100136 \\
+Net Trading P\&L & 3100136 \\
 Average Trade P\&L & 3100136 \\
-Median Trade PL\& & 3100136 \\
+Median Trade P\&L & 3100136 \\
 Largest Winner & 3100136 \\
 Largest Loser & 0 \\
 Gross Profits & 3100136 \\
 Gross Losses & 0 \\
-Standard Deviation.Trade.P\&L &  \\
-Standard Error.Trade.P\&L &  \\
+Standard Deviation Trade P\&L &  \\
+Standard Error Trade P\&L &  \\
 Percent Positive & 100 \\
 Percent Negative & 0 \\
 Profit Factor &  \\
