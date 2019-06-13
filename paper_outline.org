@@ -1,8 +1,8 @@
 * Indroduction
 ** Literature Review
 
+** Data
 * Strategies
-** Data 
 ** Buy and Hold Strategy
 *** Description of the Strategy
 ** Donchian Channel Strategy
@@ -11,6 +11,8 @@
 * Results
 ** Buy & Hold Strategy
 ** Donchian Channel Strategy
+
 ** Donchian Channel Strategy vs Buy & Hold
 
+*** Fama French
 * Conclusion
