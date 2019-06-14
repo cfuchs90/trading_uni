@@ -6,13 +6,25 @@
 ** Buy and Hold Strategy
 *** Description of the Strategy
 ** Donchian Channel Strategy
-*** Description of the Strategy
+*** Indicator
+*** Strategy
 
 * Results
 ** Buy & Hold Strategy
+*** Strategy Trading
+*** Strategy Performance Chart
+*** Strategy Performance Table
 ** Donchian Channel Strategy
+*** Strategy Trading
+*** Strategy Performance Chart
+*** Strategy Performance Table
 
 ** Donchian Channel Strategy vs Buy & Hold
-
+*** Relative Performance
+*** Equity Curves
+*** Performance Table
 *** Fama French
 * Conclusion
+* Appendix
+** Script for Optimization
+** Script for Backtesting and Analysis

@@ -502,8 +502,7 @@ Portfolio & donchian-channel & buyHold \\
 
 * Conlusion
 
-It could be seen, that the Donchian Channel Strategy did not exhibit a singificant amount of alpha.
-
+The above sections showed the reader that a quantitative trading strategy cannot be implemented without taking further risks, which confirms the efficient m
 
 #+LaTeX: \begin{appendices}
 \newpage
