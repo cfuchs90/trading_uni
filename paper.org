@@ -502,8 +502,19 @@ Portfolio & donchian-channel & buyHold \\
 
 * Conlusion
 
-The above sections showed the reader that a quantitative trading strategy cannot be implemented without taking further risks, which confirms the efficient m
+The above sections the data for the Apple stock was downloaded from Yahoo Finance and subsequently split into two parts. The first part of the
+data was used to optimize the number of days the Dochian Channel takes into account to generate the trading signals.
+As stated in section \ref{sec:intro}, the statistic that was considered in the optimization was the Calmar Ratio. This optimization yielded
+that 11 days was the optimal number of days for the \gls{dcs}.
+Also a corresponding \gls{bah} strategy was tested, which served as a benchmark against which the \gls{dcs} was measured.
+The resulting comparison these two strategies showed, that the \gls{bah} strategy was superior to the \gls{dcs} considering to their corresponding
+Calmar Ratios. Also the result of the Fama-French 3 Factor model yielded that the strategy did not generate a sufficient \alpha, to consider it
+to be a success.
 
+However, these results come with some caveats. While the optimization yielded an optimal number of 11 days for the strategy, these results could
+vary when performing the optimization on another timeframe. Also the resulting optimization parameter cannot be generalized for every conceivable
+asset but is specific to the asset used in this paper. Further, the \gls{dcs} is only one specific possibility among all quantitative trading
+strategies. It may well be, that another strategy yields another, more positive result.
 #+LaTeX: \begin{appendices}
 \newpage
 * Appendix
