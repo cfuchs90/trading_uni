@@ -7,7 +7,6 @@
 
 
 bibliographystyle:agsm
-bibliography:research-references.bib
 \newpage
 #+LATEX: \listoffigures
 \newpage
@@ -535,6 +534,8 @@ asset but is specific to the asset used in this paper. Further, the \gls{dcs} is
 strategies. It may well be, that another strategy yields another, more positive result.
 #+LaTeX: \begin{appendices}
 \newpage
+
+bibliography:research-references.bib
 * Appendix
 #+NAME: Optimization Script
 **  Script for Optimization
