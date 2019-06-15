@@ -4,7 +4,7 @@
    (TeX-add-to-alist 'LaTeX-provided-class-options
                      '(("article" "11pt")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem")))
+                     '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem") ("natbib" "square")))
    (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
@@ -32,45 +32,51 @@
     "textcomp"
     "amssymb"
     "capt-of"
-    "hyperref")
+    "hyperref"
+    "natbib")
    (LaTeX-add-labels
-    "sec:org1e989de"
+    "sec:orgb7db3ec"
     "sec:intro"
-    "sec:orgb15118d"
+    "sec:org37c0e5c"
+    "sec:org09b3cb5"
+    "sec:orgebc3f55"
     "img:stock"
+    "sec:orgd61b983"
     "eq:calmar-ratio"
-    "sec:org400d287"
-    "sec:orgc8590b0"
+    "sec:org73a91d9"
+    "sec:org214b508"
     "sec:buyhold"
-    "sec:org02f4a72"
+    "sec:orgf4f2607"
     "sec:donchian"
-    "sec:org9adf144"
-    "sec:org4ab74e2"
-    "sec:org51a985f"
-    "sec:orgd53e226"
+    "sec:orgb288e0b"
+    "sec:orgc065006"
+    "sec:orgbd5afc2"
+    "sec:org38529e6"
     "img:buyhold-strategy"
     "img:buyhold-performance"
     "tab:buyhold-trading-statistics"
     "img:buyhold-portfolio-summary"
-    "sec:org2f65c39"
+    "sec:org6363b44"
     "sec:strategy"
     "img:donchian-strategy"
     "img:donchian-performance"
     "tab:strategy-statistics"
-    "sec:org76f2ad7"
+    "sec:org554784f"
     "sec:comparison"
-    "sec:org40e98b6"
+    "sec:orga33b7f4"
     "img:relative-performance"
-    "sec:orgdeac58a"
+    "sec:org7d42ccc"
     "img:donchian-vs-buyhold"
-    "sec:org4cbbdbd"
+    "sec:org8bdedd8"
     "tab:both-statistics"
-    "sec:org682e73c"
+    "sec:org944f85e"
     "tab:ff-regression"
     "img:strategy_summary"
-    "sec:orgd7b71b1"
-    "sec:orgf56cc2d"
-    "sec:org3ed5110"
-    "sec:org29410f0"))
+    "sec:org8899c83"
+    "sec:org61252e9"
+    "sec:org1c2e00b"
+    "sec:org481ee6d")
+   (LaTeX-add-bibliographies
+    "research-references"))
  :latex)
 

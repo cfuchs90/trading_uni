@@ -1,7 +1,8 @@
 * Indroduction
-** Literature Review
+*** General Introduction
+*** Literature Review
 
-** Data
+*** Data
 * Strategies
 ** Buy and Hold Strategy
 *** Description of the Strategy
@@ -28,3 +29,6 @@
 * Appendix
 ** Script for Optimization
 ** Script for Backtesting and Analysis
+#+LATEX_HEADER: \bibliographystyle{agsm}
+#+LATEX_HEADER: \bibliography{research-references}
+{biblatex}
