@@ -1,13 +1,22 @@
-#+OPTIONS: toc:2
+#+OPTIONS: toc:nil
+#+BEGIN_abstract
+This is my abstract, it is a really good abstract
+#+END_abstract
+\newcounter{savepage}
+\thispagestyle{empty}
 
 #+LATEX_HEADER: \input{lat_pre.tex}
 #+LATEX: \setlength\parindent{0pt}
 #+LATEX_HEADER: \usepackage[square]{natbib}
+\newpage
+\tableofcontents
+\thispagestyle{empty}
 
 
 
 bibliographystyle:agsm
 \newpage
+\pagenumbering{Roman}
 #+LATEX: \listoffigures
 \newpage
 #+LATEX: \listoftables
@@ -17,10 +26,14 @@ bibliographystyle:agsm
 \newpage
 
 
+\cleardoublepage
+\setcounter{savepage}{\arabic{page}}
+\pagenumbering{arabic}
+
 * Introduction
 \label{sec:intro}
 *** General Introduction
-    Efficient Market Hypothesis cite:millemaci_present-biased_2016
+    Efficient Market Hypothesis
 *** Literature Review
 
 This paper will
@@ -56,11 +69,11 @@ can be seen in equation \eqref{eq:calmar-ratio}.
 ** Buy and Hold
    \label{sec:buyhold}
 
-   The first strategy that will be examined here is the \\gls{bah} strategy. The \gls{bah} strategy does what its name suggests. At the beginning of the
+   The first strategy that will be examined here is the \gls{bah} strategy. The \gls{bah} strategy does what its name suggests. At the beginning of the
    period the asset will be bought and hold over the entire observed period. A graphical representation of the strategy applied to the Apple Stock from
    1990-01-01 to 2018-12-01 can be seen in figure \ref{img:buyhold-strategy}.
    This strategy also serves as the reference strategy against which the \gls{dcs} in chapter \ref{sec:donchian} is measured.
-   If the \\gls{bah} strategy fares better in terms of the calmar ratio than Donchian Channel strategy, one would be better off just buying the stock and
+   If the \gls{bah} strategy fares better in terms of the calmar ratio than Donchian Channel strategy, one would be better off just buying the stock and
    do not try to outperform its performance.
 
 
@@ -82,6 +95,7 @@ below the lower bound.
   The indicator consists in its simplest form of an upper bound and a lower bound. The upper bound consists of the highest price of the last /n/ days, whereas the lower bound consists of the lowest price of the last /n/ days.
   The more complex indicator also consists of a middle line, which is simply an average of the aforementioned upper and lower bounds. However, in this paper it was not used and is therefore not mentioned in the following mathematical
   representation of the indicator.
+
 
 
   \begin{align}
@@ -116,9 +130,9 @@ periods.
 		\includegraphics[width = 10cm]{buyhold_trading}
 	\end{figure}
 
-This becomes more obvious by looking at the upper chart of figure \ref{img:buyhold-performance} which depicts the cumulative P&L of the Apple stock.
-Again, it can be seen that the cumulative P&L of it did not move much until January 2005. Since then it grew, with some hickups in the meantime, until late 2018 when a
-sharp downtrend in the cumulative P&L can be observed. This is due to the above mentioned sharp decline in Apple's stock price. It also comes as no surprise, that the daily
+This becomes more obvious by looking at the upper chart of figure \ref{img:buyhold-performance} which depicts the cumulative \gls{pl} of the Apple stock.
+Again, it can be seen that the cumulative \gls{pl} of it did not move much until January 2005. Since then it grew, with some hickups in the meantime, until late 2018 when a
+sharp downtrend in the cumulative \gls{pl} can be observed. This is due to the above mentioned sharp decline in Apple's stock price. It also comes as no surprise, that the daily
 returns, which can be seen in the middle chart of figure \ref{img:buyhold-performance}, became more erratic since the beginning of the stocks long lasting uptrend and even
 more volatile during the sharp decline in late 2018.
 
@@ -143,7 +157,7 @@ consists of only two transactions. One buy transaction and one sell transaction 
 median stay the same. Other statistics like, the average win to loss ratio cannot be calculated since the strategies only trade was a winning trade and no losing trade exists.
 Thus, no statistics which is based on losing trades can be calculated accordingly.
 
-The strategy generated a net trading P&L and therefore an end equity of $3100136 which corresponds to a total return of 310.0136%. Considering that only one trade
+The strategy generated a net trading \gls{pl} and therefore an end equity of $3100136 which corresponds to a total return of 310.0136%. Considering that only one trade
 was done, it is not surprising that a 100% of the trades executed have been positive.
 
 The maximum drawdown that this strategy generated over the course of its span, is 1704800. This metric is together with the end equity necessary to compute
@@ -208,7 +222,7 @@ End Equity & 3100136 \\
 Figure \ref{img:donchian-strategy} shows the strategy from January 2016 to December 2018. It becomes apparent that the strategy executed multiple
 long and multiple short orders during the observed period. However, most of the orders seen during this period were on the long side of the market.
 This is not surprising, since the market was in a clear uptrend until late 2018. Further, figure  \ref{img:donchian-strategy} shows the cumulative
-P&L and the drawdowns during span of the given time period. One can see that the strategy exhibits a real volatile cumulative P&L which indicates that
+\gls{pl} and the drawdowns during span of the given time period. One can see that the strategy exhibits a real volatile cumulative \gls{pl} which indicates that
 the strategy is somewhat risky. However it should also be noted, that the strategy performed really well, compared to the B&H strategy, during the
 downtrend in late 2018. This is due to the fact, that the \gls{dcs} is a trend following strategy and shorts the market during downtrends,
 which explains its superior performance in this instance.
@@ -261,7 +275,7 @@ Portfolio & donchian-channel \\
 Symbol & AAPL \\
 Number of Transactions & 1600 \\
 Number of Trades & 266 \\
-Net Trading P&L & 13710664 \\
+Net Trading P\&L & 13710664 \\
 Average Trade P\&L & 22258.66 \\
 Median Trade P\&L & -8317.39 \\
 Largest Winner & 8907160 \\
@@ -294,12 +308,12 @@ End Equity & 13710664 \\
 \end{table}
 
 Also the strategy gained $26234451 in gross profits over the course of the 28 years of data observed while gross losses amounted to $20313648.
-The strategy also displays an average trading P&L of $22254.66 whereas its median trading P&L is a negative -$8317.39. Further the largest winning trade
-during the course of this backtest was $8907160 and the largest losing trade -$1273010. The standard deviation of the Trading P&L is $681073.7. Which
+The strategy also displays an average trading \gls{pl} of $22254.66 whereas its median trading \gls{pl} is a negative -$8317.39. Further the largest winning trade
+during the course of this backtest was $8907160 and the largest losing trade -$1273010. The standard deviation of the Trading \gls{pl} is $681073.7. Which
 is more than half of the initial equity of 1 million dollars.
 
 
-Also the strategy generated an average daily P&L of $22258.66 while the median daily P&L is a negative $8317.39. This means that at least 50% all trades
+Also the strategy generated an average daily \gls{pl} of $22258.66 while the median daily \gls{pl} is a negative $8317.39. This means that at least 50% all trades
 resulted in a loss.
 This becomes even more apparent if one takes in consideration the percentages of positive vs negative trades. Only 22.93% of all trades resulted in a positive
 result, while the remaining 77.06% resulted in losses. This is implies that the majority of the profits come from a few large positive trades while most
@@ -352,12 +366,12 @@ Starting in early 2018 the strategy began another advance that lasted until the 
 
 This outperformance of the \gls{dcs} can be seen more clearly by looking at the upper chart of  figure \ref{img:donchian-vs-buyhold} which depicts
 the equity curves of both strategies. Again, the periods of under performance of the \gls{dcs} in 2000 and 2004 are visible, as is the fact that the
-\gls{dcs} outperforms the \\gls{bah} strategy most of the time. But it also becomes clear, that the \gls{dcs} is way more volatile than the corresponding
-\\gls{bah} strategy. While the \\gls{bah} strategy exhibits a more sluggish rise, it does it in a much smoother fashion. The \gls{dcs} on the other hand
+\gls{dcs} outperforms the \gls{bah} strategy most of the time. But it also becomes clear, that the \gls{dcs} is way more volatile than the corresponding
+\gls{bah} strategy. While the \gls{bah} strategy exhibits a more sluggish rise, it does it in a much smoother fashion. The \gls{dcs} on the other hand
 rises more erratic.
 
 Also it can be seen that the \gls{dcs} exhibits more frequent and much more severe drawdowns, which can be seen in the bottom chart of figure \ref{img:donchian-vs-buyhold}.
-Compared the \gls{dcs} the \\gls{bah} strategy has no drawdowns that visually stand out in any way. To the contrary, all drawdowns of this strategy are
+Compared the \gls{dcs} the \gls{bah} strategy has no drawdowns that visually stand out in any way. To the contrary, all drawdowns of this strategy are
 weak in magnitude and relatively short in duration.
 The \gls{dcs} on the other hand exhibits longer and much more severe drawdowns during the course of the backtest. This is hardly surprising since the
 upper chart of figure \ref{img:strategy-vs-market} and figure \ref{img:relative-performance} already gave an indication of the volatility of the \gls{dcs}.
@@ -374,18 +388,62 @@ magnitude and lasted from from early 2017 to late 2018.
 
 *** Performance Table
 
-To get a clearer understanding about how the \gls{dcs} fared against the \gls{bah} strategy it is necessary to compare their respective statistics.
-Table \ref{tab:both-statistics} combines all important statistics of both strategies in one table.
+To get a more comprehensive understanding about how the \gls{dcs} fared against the \gls{bah} strategy it is necessary to compare their respective statistics.
+Table \ref{tab:statistics-both} combines all important statistics of both strategies in one table.
 
 As mentioned in section \ref{sec:strategy} the \gls{dcs} performed 266 which consist of 1600 transaction. As mentioned earlier in section
-\res{sec:intro} the order fee for each trade was assumed to be $10. This makes the \gls{dcs} ultimately more expensive than the corresponding
-\gls{bah} strategy, which only consists of 2 trades. However just looking at the net trading \gls{pl} it becomes immediately clear the
+\ref{sec:intro} the order fee for each trade was assumed to be $10. This makes the \gls{dcs} ultimately more expensive than the corresponding
+\gls{bah} strategy, which only consists of 2 trades. However just looking at the net trading \\gls{pl} it becomes immediately clear the
 \gls{dcs} outperformed the \gls{bah} strategy by a wide margin. The stock only earned a profit of $3100136 whereas the \gls{dcs} gained in the
 same time a profit of $13710664. Setting these two values in relation and one can conclude that the \gls{dcs} made 4.422601 times the profit of the
 stock itself. As mentioned in the earlier sections, this staggering profit was possible due to a multitude of factors. Since the strategy is a
 trend following strategy, it is expected that is will do very will during periods when the market is either in a strong up- or in a strong downtrend.
 Again looking at the upper chart of figure \ref{img:buyhold-strategy} it can be seen that the Apple stock entered an uptrend that lasted until late
 2018, when it entered a sharp downtrend. These periods were very profitable for the \gls{dcs}.
+
+\begin{table}[ht]
+\centering
+\caption{Buy \& Hold vs Donchian Channel Stragey - Performance Statistics}
+\label{tab:statistics-both}
+\begin{tabular}{rll}
+  \hline
+ & AAPL & AAPL \\
+  \hline
+Portfolio & donchian-channel & buyHold \\
+  Symbol & AAPL & AAPL \\
+  Number of Transaction & 1600 & 2 \\
+  Number of Trades & 266 & 1 \\
+  Net Trading P\&L & 13710664 & 3100136 \\
+  Average Trading P\&L & 22258.66 & 3100136 \\
+  Median Trading P\&L & -8317.39 & 3100136 \\
+  Largest Winner & 8907160 & 3100136 \\
+  Largest Loser & -1273010 & 0 \\
+  Gross Profits & 26234451 & 3100136 \\
+  Gross Losses & -20313648 & 0 \\
+  Standard Deviation Trading P\&L & 681073.7 &  \\
+  Standard Error Trading P\&L & 41759.31 &  \\
+  Percent Positive & 22.93233 & 100 \\
+  Percent Negative & 77.06767 & 0 \\
+  Profit Factor & 1.291469 &  \\
+  Average Winning Trade & 430073 & 3100136 \\
+  Median Winning Trade & 75790.28 & 3100136 \\
+  Average Losing Trade & -99090.97 &  \\
+  Median Losing Trade & -17624.32 &  \\
+  Average Daily P\&L & 22258.66 & 3100136 \\
+  Median Daily P\&L & -8317.39 & 3100136 \\
+  Standard Deviation Daily P\&L & 681073.7 &  \\
+  Standard Error Daily P\&L & 41759.31 &  \\
+  Annual Sharp Ratio & 0.5188061 &  \\
+  Maximum Drawdown & -10656724 & -1704800 \\
+  Calmar Ratio & 1.286574 & 1.818475 \\
+  Average Win/Loss Ratio & 4.340183 &  \\
+  Median Win/Loss Ratio & 4.300324 &  \\
+  Maxiumum Equity & 16323872 & 4616936 \\
+  Minimum Equity & -179396.2 & -15223.2 \\
+  End Equity & 13710664 & 3100136 \\
+   \hline
+\end{tabular}
+\end{table}
 
 However, as already mentioned numerous times before, one has to take into account the amount of risk involved in such a strategy. Comparing the
 maximum drawdown of both strategies it becomes clear that the \gls{dcs} fared far worse than the corresponding \gls{bah} strategy. It generated
@@ -394,55 +452,55 @@ a maximum drawdown of $10656724 while the Apple stock only displayed a maximum d
 As already mentioned in section \ref{sec:intro}, the calmar ratio takes the aforementioned statistics in relation to each other and gives as clear
 indication about how well the respective strategy performed in relation to its risk. Comparing these value for the two strategies makes it
 possible to decide whether the \gls{dcs} can be considered successful in contrast to the \gls{bah} strategy.
-By taking a look at table \ref{both-statistics} one can easily see that the \gls{dcs} is inferior to the \gls{bah} strategy according this performance
+By taking a look at table \ref{tab:statistics-both} one can easily see that the \gls{dcs} is inferior to the \gls{bah} strategy according this performance
 metric. The Apple stock generated a calmar ratio of 1.818475 whereas the \gls{dcs} showed a value of just 1.286574.
 Therefore, according to the risk it takes on, the \gls{dcs} with the optimized parameter does not beat the market.
 
 
+# \begin{table}[ht]
+# \centering
+# \caption{Buy \& Hold vs Donchian Channel Stragey - Performance Statistics}
+# \label{tab:statistics-both}
+# \begin{tabular}{rll}
+#   \hline
+#  & AAPL & AAPL \\
+#   \hline
+# Portfolio & donchian-channel & buyHold \\
+#   Symbol & AAPL & AAPL \\
+#   Number of Transaction & 1600 & 2 \\
+#   Number of Trades & 266 & 1 \\
+#   Net Trading P\&L & 13710664 & 3100136 \\
+#   Average Trading P\&L & 22258.66 & 3100136 \\
+#   Median Trading P\&L & -8317.39 & 3100136 \\
+#   Largest Winner & 8907160 & 3100136 \\
+#   Largest Loser & -1273010 & 0 \\
+#   Gross Profits & 26234451 & 3100136 \\
+#   Gross Losses & -20313648 & 0 \\
+#   Standard Deviation Trading P\&L & 681073.7 &  \\
+#   Standard Error Trading P\&L & 41759.31 &  \\
+#   Percent Positive & 22.93233 & 100 \\
+#   Percent Negative & 77.06767 & 0 \\
+#   Profit Factor & 1.291469 &  \\
+#   Average Winning Trade & 430073 & 3100136 \\
+#   Median Winning Trade & 75790.28 & 3100136 \\
+#   Average Losing Trade & -99090.97 &  \\
+#   Median Losing Trade & -17624.32 &  \\
+#   Average Daily P\&L & 22258.66 & 3100136 \\
+#   Median Daily P\&L & -8317.39 & 3100136 \\
+#   Standard Deviation Daily P\&L & 681073.7 &  \\
+#   Standard Error Daily P\&L & 41759.31 &  \\
+#   Annual Sharp Ratio & 0.5188061 &  \\
+#   Maximum Drawdown & -10656724 & -1704800 \\
+#   Calmar Ratio & 1.286574 & 1.818475 \\
+#   Average Win/Loss Ratio & 4.340183 &  \\
+#   Median Win/Loss Ratio & 4.300324 &  \\
+#   Maxiumum Equity & 16323872 & 4616936 \\
+#   Minimum Equity & -179396.2 & -15223.2 \\
+#   End Equity & 13710664 & 3100136 \\
+#    \hline
+# \end{tabular}
+# \end{table}
 
-\begin{table}[Ht]
-  \caption{Donchian Channel vs Buy and Hold - Trading Statistics}
-  \label{tab:both-statistics}
-\centering
-\begin{tabular}{rll}
-  \hline
- & AAPL & AAPL \\
-  \hline
-Portfolio & donchian-channel & buyHold \\
-  Symbol & AAPL & AAPL \\
-  Number of Transactions & 1600 & 2 \\
-  Number of Trades & 266 & 1 \\
-  Net Trading P\&L & 13710664 & 3100136 \\
-  Average Trade P\&L & 22258.66 & 3100136 \\
-  Median Trade P\&L & -8317.39 & 3100136 \\
-  Largest Winner & 8907160 & 3100136 \\
-  Largest Loser & -1273010 & 0 \\
-  Gross Profits & 26234451 & 3100136 \\
-  Gross Losses & -20313648 & 0 \\
-  Standard Deviation Trade P\&L & 681073.7 &  \\
-  Standard Error Trade P\&L & 41759.31 &  \\
-  Percent Positive & 22.93233 & 100 \\
-  Percent Negative & 77.06767 & 0 \\
-  Profit Factor & 1.291469 &  \\
-  Average Win Trade & 430073 & 3100136 \\
-  Median Win Trade & 75790.28 & 3100136 \\
-  Average Losing Trade & -99090.97 &  \\
-  Median Losing Trade & -17624.32 &  \\
-  Average Daily P\&L & 22258.66 & 3100136 \\
-  Median Daily P\&L & -8317.39 & 3100136 \\
-  Standard Deviation Daily P\&L & 681073.7 &  \\
-  Standard Error Daily P\&L & 41759.31 &  \\
-  Annual Sharpe & 0.5188061 &  \\
-  Maximum Drawdown & -10656724 & -1704800 \\
-  Calmar Ratio & 1.286574 & 1.818475 \\
-  Average Win/Loss Ratio & 4.340183 &  \\
-  Median Win/Loss Ratio & 4.300324 &  \\
-  Maximum Equity & 16323872 & 4616936 \\
-  Minimum Equity & -179396.2 & -15223.2 \\
-  End Equity & 13710664 & 3100136 \\
-   \hline
-\end{tabular}
-\end{table}
 
 *** Fama-French 3 Factor Model
 
@@ -452,15 +510,14 @@ Portfolio & donchian-channel & buyHold \\
 \begin{table}[ht]
 \centering
 \caption{Fama French 3 Factor Model}
-\label{tab:ff-regression}
 \begin{tabular}{rrrrr}
   \hline
- & Estimate & Standard. Erroror & t value & Pr($>$$|$t$|$) \\
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
   \hline
-(Intercept) & 0.00001931885 & 0.00001786606 & 1.0813 & 0.2796 \\
-  MktRf & -0.00002635795 & 0.00001623392 & -1.6236 & 0.1045 \\
-  SMB & 0.00007188758 & 0.00003110713 & 2.3110 & 0.0209 \\
-  HL & 0.00000027617 & 0.00003033579 & 0.0091 & 0.9927 \\
+(Intercept) & 0.00182482512 & 0.00178661209 & 1.0214 & 0.3071 \\ 
+  MktRf & -0.26350333764 & 0.16233978370 & -1.6232 & 0.1046 \\ 
+  SMB & 0.71920917560 & 0.31107249521 & 2.3120 & 0.0208 \\ 
+  HL & 0.00267107357 & 0.30335902830 & 0.0088 & 0.9930 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -1012,3 +1069,4 @@ chartSeries(AAPL, theme = 'white')
 #+END_SRC
 
 # \printbibliography
+                                                                                        

@@ -252,9 +252,11 @@ colnames(ff_factors) <- c("MktRf", "SMB", "HL", "RF")
 # Create an XTS Object
 ff_factors <- xts(ff_factors, ff_date)
 ff_factors <- ff_factors["1990/20181228"]
+ff_factors <- ff_factors/100
 
+excess_returns = PortfReturns(donchian_strategy) - ff_factors$RF
 # FF 3 Factor Model
-model <- lm(returns ~ MktRf + SMB + HL, data=ff_factors)
+model <- lm(excess_returns ~ MktRf + SMB + HL, data=ff_factors)
 summary(model)
 xtable(model, digits = c(0, 11, 11, 4, 4))
 
