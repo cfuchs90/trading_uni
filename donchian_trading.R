@@ -4,13 +4,22 @@
 
 # parameter 11
 
-install.packages("quantstrat")
-install.packages("lattice")
-install.packages("quantmod")
-install.packages("xts")
-install.packages("xtable")
-install.packages("lubridate")
-install.packages("fBasics")
+# Setup cpde taken from
+if (!require("quantstrat")) {
+    if(!require("devtools")) {
+        install.packages("devtools")
+        require(devtools)
+    }
+    install_github("braverock/blotter") # dependency
+    install_github("braverock/quantstrat")
+}
+
+## install.packages("lattice")
+## install.packages("quantmod")
+## install.packages("xts")
+## install.packages("xtable")
+## install.packages("lubridate")
+## install.packages("fBasics")
 
 library(quantstrat)
 library(lattice)

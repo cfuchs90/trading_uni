@@ -1,4 +1,13 @@
-install.packages("quantstrat")
+
+if (!require("quantstrat")) {
+    if(!require("devtools")) {
+        install.packages("devtools")
+        require(devtools)
+    }
+    install_github("braverock/blotter") # dependency
+    install_github("braverock/quantstrat")
+}
+
 install.packages("quantmod")
 
 library(quantstrat)
