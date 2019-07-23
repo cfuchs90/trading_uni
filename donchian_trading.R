@@ -208,9 +208,12 @@ xtable(tstats_buyhold)
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
+colnames
+#Performance Summary
+returns = PortfReturns(donchian_strategy)
 colnames(returns) = 'Dochian Strategy'
-returns <- returns/100
-charts.PerformanceSummary(returns/100, colorset = 'darkblue')
+## returns <- returns/100
+charts.PerformanceSummary(returns, colorset = 'darkblue')
 #
 return_buyhold <- PortfReturns(Account = "buyHold")
 colnames(return_buyhold) = 'Buy and Hold'
@@ -256,12 +259,16 @@ ff_date <- ff_factors$Date
 ff_factors <- ff_factors[, -1]
 
 # Rename the columns
+# MktRf = Market Return above Risk Free Rate
+# SMB = Size Factor
+# HL = Book Value/Market Value
+# RF = Risk Free Rate
 colnames(ff_factors) <- c("MktRf", "SMB", "HL", "RF")
 
 # Create an XTS Object
 ff_factors <- xts(ff_factors, ff_date)
 ff_factors <- ff_factors["1990/20181228"]
-ff_factors <- ff_factors/100
+## ff_factors <- ff_factors/100
 
 excess_returns = PortfReturns(donchian_strategy) - ff_factors$RF
 # FF 3 Factor Model
@@ -295,7 +302,4 @@ startDate <- "1980-01-01"
 endDate <- "2018-12-31"
 
 getSymbols("AAPL", from = startDate, to = endDate)
-AAPL <- na.omit(AAPL)
-colnames(AAPL) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
-                                        # Chart the Series
-chartSeries(AAPL, theme = 'white')
+AAPL <-
