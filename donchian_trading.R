@@ -61,12 +61,18 @@ rm.strat(donchian_strategy)
 
 stock("AAPL", currency="USD", multiplier = 1)
 strategy(donchian_strategy, store = TRUE)
-initPortf(donchian_strategy, "AAPL", initDate = initDate)
+initPortf(donchian_strategy, "AAPL")
 initAcct(donchian_strategy,  portfolios = donchian_strategy,
-         initDate = initDate, initEq = start_equity,
+         initEq = start_equity,
          currency = 'USD')
 
-initOrders(donchian_strategy, initDate = initDate)
+initOrders(donchian_strategy)
+
+addPosLimit(
+    portfolio = donchian_strategy,
+    symbol = "AAPL",
+    timestamp = initDate,
+    maxpos = orderSize)
 
 
 # Create the indicator
@@ -102,7 +108,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "long",
              ordertype = "market",
              replace = FALSE,
-             TxnFees = fee,
+             osFUN = osMaxPos,
              orderqty = +orderSize),
          type = "enter",
          label = "EnterLong",
@@ -116,7 +122,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "short",
              ordertype = "market",
              replace = FALSE,
-             TxnFees = fee,
+             osFUN = osMaxPos,
              orderqty = -orderSize),
          type = "enter",
          label = "EnterShort"
@@ -156,6 +162,7 @@ updatePortf(donchian_strategy)
 updateAcct(donchian_strategy)
 updateEndEq(donchian_strategy)
 chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
+chart.Posn(donchian_strategy, Symbol = 'AAPL')
 #chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2000::2010')
 
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
@@ -169,7 +176,7 @@ mk.df
 
 rets <- PortfReturns(donchian_strategy)
 rownames(rets) <- NULL
-charts.PerformanceSummary(rets/100, colorset=bluefocus)
+charts.PerformanceSummary(rets, colorset=bluefocus)
 
 ######## buy and hold test
 #the code for this this part was taken from
@@ -244,7 +251,7 @@ chart.RelativePerformance(returns, return_buyhold,
                           legend.loc = "topleft")
 
 #---- Fama French 3 Factor Model ----
-ff_factors <- read.csv2("./ff_factors.csv", sep = ',')
+ff_factors <- read.csv2("/ff_factors.csv", sep = ',')
 
 # change the columns to the correct data type
 ff_factors$Mkt.RF <- as.numeric(as.character(ff_factors$Mkt.RF))
