@@ -51,6 +51,11 @@ initAcct(donchian_strategy,  portfolios = donchian_strategy,
 
 initOrders(donchian_strategy, initDate = initDate)
 
+addPosLimit(
+    portfolio = donchian_strategy,
+    symbol = "AAPL",
+    timestamp = initDate,
+    maxpos = orderSize)
 
 # Create the indicator
 add.indicator(strategy = donchian_strategy,
@@ -85,7 +90,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "long",
              ordertype = "market",
              replace = FALSE,
-             TxnFees = fee,
+             osFUN = osMaxPos,
              orderqty = +orderSize),
          type = "enter",
          label = "EnterLong",
@@ -98,7 +103,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              sigval = TRUE,
              orderside = "short",
              ordertype = "market",
-             TxnFees = fee,
+             osFUN = osMaxPos,
              replace = FALSE,
              orderqty = -orderSize),
          type = "enter",

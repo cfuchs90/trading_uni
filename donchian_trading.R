@@ -17,7 +17,7 @@ if (!require("quantstrat")) {
 ## install.packages("lattice")
 ## install.packages("quantmod")
 ## install.packages("xts")
-## install.packages("xtable")
+## install.packages("stargazer")
 ## install.packages("lubridate")
 ## install.packages("fBasics")
 
@@ -25,7 +25,7 @@ library(quantstrat)
 library(lattice)
 library(quantmod)
 library(xts)
-library(xtable)
+library(stargazer)
 library(lubridate)
 library(fBasics)
 options(scipen=999)
@@ -50,7 +50,7 @@ fee = -10 # Transaction fee of $2
 stopp_loss <- 0.02
 
 options(repr.plot.width = 6, repr.plot.height = 4)
-init_n <- 11
+init_n <- 95
 
 
 Sys.setenv(TZ="UTC")
@@ -75,7 +75,7 @@ addPosLimit(
     maxpos = orderSize)
 
 
-# Create the indicator
+                                        # Create the indicator
 add.indicator(strategy = donchian_strategy,
               name = "DonchianChannel",
               arguments = list(HL = quote(HLC(mktdata)[, 1:2]),
@@ -168,7 +168,7 @@ chart.Posn(donchian_strategy, Symbol = 'AAPL')
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
 tstats = t(tradeStats(donchian_strategy, 'AAPL'))
-xtable(tstats)
+stargazer(tstats)
 
 mk <- mktdata['1990-01-01::2018-12-31']
 mk.df <- data.frame(Date=time(mk),coredata(mk))
@@ -211,7 +211,7 @@ chart.Posn("buyHold", Symbol = "AAPL")
 
 tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold
-xtable(tstats_buyhold)
+stargazer(tstats_buyhold)
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
@@ -224,7 +224,7 @@ charts.PerformanceSummary(returns, colorset = 'darkblue')
 #
 return_buyhold <- PortfReturns(Account = "buyHold")
 colnames(return_buyhold) = 'Buy and Hold'
-return_buyhold <- return_buyhold/100
+#return_buyhold <- return_buyhold0
 charts.PerformanceSummary(return_buyhold, colorset='darkblue')
 #
 return_both = cbind(returns, return_buyhold)
@@ -251,7 +251,7 @@ chart.RelativePerformance(returns, return_buyhold,
                           legend.loc = "topleft")
 
 #---- Fama French 3 Factor Model ----
-ff_factors <- read.csv2("/ff_factors.csv", sep = ',')
+ff_factors <- read.csv2("ff_factors.csv", sep = ',')
 
 # change the columns to the correct data type
 ff_factors$Mkt.RF <- as.numeric(as.character(ff_factors$Mkt.RF))
@@ -281,7 +281,7 @@ excess_returns = PortfReturns(donchian_strategy) - ff_factors$RF
 # FF 3 Factor Model
 model <- lm(excess_returns ~ MktRf + SMB + HL, data=ff_factors)
 summary(model)
-xtable(model, digits = c(0, 11, 11, 4, 4))
+stargazer(model)
 
 # Portfolio Summary Graphs
 strategy_pf <- getPortfolio(donchian_strategy)
@@ -292,16 +292,16 @@ xyplot(buyhold_pf$summary, type = "h", col = 4)
 
 # Summary statistics of Buy & Hold strategy
 buyhold_summary <- basicStats(return_buyhold * 100)
-xtable(buyhold_summary, digits = c(0, 5))
+stargazer(buyhold_summary, digits = c(0, 5))
 
 
 # Summary statistics of the Donchian Channel strategy
 strategy_summary <- basicStats(returns * 100)
-xtable(strategy_summary, digits = c(0, 5))
+stargazer(strategy_summary, digits = c(0, 5))
 
 # Tstats table for both
 tstats_table_both <- cbind(tstats, tstats_buyhold)
-xtable(tstats_table_both)
+stargazer(tstats_table_both)
 
 # Chart the whole series
 initDate <- "1980-01-01"
@@ -309,4 +309,5 @@ startDate <- "1980-01-01"
 endDate <- "2018-12-31"
 
 getSymbols("AAPL", from = startDate, to = endDate)
-AAPL <-
+#AAPL <-
+chartSeries(AAPL, theme="white")
