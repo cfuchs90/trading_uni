@@ -301,8 +301,6 @@ of losses amounts to 57.58%. Taking the aforementioned statistics into account t
 had more losing than winning trades, the overall amount of winning trades were larger than the overall losses encountered
 during the backtest.
 
-But also, just as in section \ref{sec:buyhold-results} one has to take into account the risk associated with the 
-strategy. Taking a look at the maximum drawdown allows us to assess 
 
 \begin{table}[!htbp] \centering 
 \caption{Donchian Channel Strategy - Trading Statistics}
@@ -349,10 +347,11 @@ End Equity & 4178491 \\
 \end{table} 
 
 
-
-
-
-
+But also, just as in section \ref{sec:buyhold-results} one has to take into account the risk associated with the 
+strategy. The metric already presented for this purpose is the maximum drawdown which was a negative $1266610.  
+This means that the strategy exhibited a calmar ratio of 3.298955 which means that the \gls{dcs} generated roundabout
+3.3 times the amount of profit than it took on in risk, represented by the the net profit and the maximum drawdown 
+respectively.
 
 ** Buy & Hold vs Donchian Channel Strategy
 \label{sec:comparison}
