@@ -15,7 +15,8 @@ This is my abstract, it is a really good abstract
 
 
 
-bibliographystyle:agsm
+ bibliographystyle:agsm
+ # bibliographystyle:dinat
 \newpage
 \pagenumbering{Roman}
 #+LATEX: \listoffigures
@@ -39,11 +40,6 @@ bibliographystyle:agsm
 
 
 *** Data
-    The data used for the purpose of the optimization and the backtesting is the adjusted closing price from the Apple Stock from 12th December 1980 to the
-    28th December 2018. The data was downloaded from Yahoo Finance using the /quantmod/ module from the R statistical programming language.
-    The data was split in two parts. The first part of the data, which spans from 12th December 1980 to 28th December of 1989 was used to optimize the parameter for
-    the \gls{dcs}, which will be further elaborated in section \ref{sec:strategy}. The other part was used for the actual backtesting of the strategy and the analysis
-    thereof. Also it was used for the backtest and analysis of the results for the \gls{bah} strategy, which will be discussed in the following section.
 
 	 \begin{figure}[H]
 		 \centering
@@ -125,10 +121,10 @@ bibliographystyle:agsm
     section.
 
 *** Fama French Modell vorstellen
+\label{sec:ff-intro}
 
     The Fama-French three factor model has been developed by Eugene Fama and Kenneth french and was published in their
-    seminal paper "Efficient Capital Markets: A Review of Theory and Empirical Work" in the Journals of Finance in 
-    1970. \\
+    seminal paper "Common Risk Factors in the Returns on Stocks and Bonds" in 1970. \\
 
     They showed that markets are generally efficient, but proved the existence of two additional factors (next to
     the excess market returns) that positively identify the outperformance of the market. According to French and Fama
@@ -154,7 +150,7 @@ bibliographystyle:agsm
     
     If the \gls{dcs} is not exposed to these three factors and does generate a significant alpha, it is safe to conclude
     that the strategy is superior to the \gls{bah} strategy proposed by Fama and French. Otherwise, the opposite holds
-    true
+    true. 
 
 
 
@@ -395,7 +391,7 @@ End Equity & 4178491 \\
 \FloatBarrier
 
 
-But also, just as in section \ref{sec:buyhold-results} one has to take into account the risk associated with the 
+But also, just as in section \ref{sec:bah-results} one has to take into account the risk associated with the 
 strategy. The metric already presented for this purpose is the maximum drawdown which was a negative $1266610.  
 This means that the strategy exhibited a calmar ratio of 3.298955 which means that the \gls{dcs} generated roundabout
 3.3 times the amount of profit than it took on in risk, represented by the the net profit and the maximum drawdown 
@@ -448,7 +444,7 @@ of 2018.
 
 	\begin{figure}[H]
 		\centering
-		\caption{Relative Performance}
+		\caption{Donchain Channel vs Buy & Hold: Relative Performance}
 		\label{img:relative-performance}
 		\includegraphics[width = 10cm]{relative_performance}
 	\end{figure}
@@ -519,7 +515,7 @@ End Equity & 4178491 & 3093171 \\
     
 Since the calmar ratio of the \gls{dcs} is higher than the ratio of the \gls{bah} strategy one can easily determine
 that the \gls{dcs} is the strategy to be favored. But this result can be misleading. As already stated in section
-\ref{sec:strategy} it is advisable to test if the strategy is dependent on one or more of the factors 
+\ref{sec:ff-intro} it is advisable to test if the strategy is dependent on one or more of the factors 
 Fama and French presented in their paper. If the strategy does not generate any alpha or even a negative alpha 
 and is dependent on any of these risk factors, the strategy is only successful because it takes on the risks delineated by
 these factors. \\
@@ -620,7 +616,7 @@ further skews the returns of the \gls{dcs} to the positive side and makes it see
 
 It could be seen, that the \gls{dcs} did not beat the \gls{bah} strategy and should therefore not be implemented 
 with real money. Since it could not be proven that it is possible to beat the market, Fama and Frenchs findings, that 
-the market is efficient could not be disputed.
+the market is efficient could not be disputed.  
 
 
 
@@ -692,6 +688,11 @@ initAcct(donchian_strategy,  portfolios = donchian_strategy,
 
 initOrders(donchian_strategy, initDate = initDate)
 
+addPosLimit(
+    portfolio = donchian_strategy,
+    symbol = "AAPL",
+    timestamp = initDate,
+    maxpos = orderSize)
 
 # Create the indicator
 add.indicator(strategy = donchian_strategy,
@@ -726,7 +727,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "long",
              ordertype = "market",
              replace = FALSE,
-             TxnFees = fee,
+             osFUN = osMaxPos,
              orderqty = +orderSize),
          type = "enter",
          label = "EnterLong",
@@ -739,7 +740,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              sigval = TRUE,
              orderside = "short",
              ordertype = "market",
-             TxnFees = fee,
+             osFUN = osMaxPos,
              replace = FALSE,
              orderqty = -orderSize),
          type = "enter",
@@ -774,7 +775,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
          )
 
 #results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
-## getTransactions(Portfolio=donchian_strategy, Symbol=symbols)
+## getTxns(Portfolio=donchian_strategy, Symbol=symbols)
 ## chart.Posn(donchian_strategy, Symbol = symbols, Dates = "2017::")
 
 ## updatePortf(donchian_strategy)
@@ -816,14 +817,16 @@ tradeResults <- optimization$tradeStats
 idx <- order(tradeResults[,1], tradeResults[,2])
 tradeResults <- tradeResults[idx,]
 
-max_calmar_parameter <- which.max(tradeResults$Calmar Ratio)
+max_calmar_parameter <- which.max(tradeResults$Profit.To.Max.Draw)
 max_calmar_parameter
+
+
 
 
 #+END_SRC
 
 
-#+NAME: Optimization Script
+#+NAME: Trading Script
 **  Script for Backtesting & Analysis
 \label{sec:trading}
 #+BEGIN_SRC R
@@ -847,7 +850,7 @@ if (!require("quantstrat")) {
 ## install.packages("lattice")
 ## install.packages("quantmod")
 ## install.packages("xts")
-## install.packages("xtable")
+## install.packages("stargazer")
 ## install.packages("lubridate")
 ## install.packages("fBasics")
 
@@ -855,7 +858,7 @@ library(quantstrat)
 library(lattice)
 library(quantmod)
 library(xts)
-library(xtable)
+library(stargazer)
 library(lubridate)
 library(fBasics)
 options(scipen=999)
@@ -880,7 +883,7 @@ fee = -10 # Transaction fee of $2
 stopp_loss <- 0.02
 
 options(repr.plot.width = 6, repr.plot.height = 4)
-init_n <- 11
+init_n <- 95
 
 
 Sys.setenv(TZ="UTC")
@@ -891,15 +894,21 @@ rm.strat(donchian_strategy)
 
 stock("AAPL", currency="USD", multiplier = 1)
 strategy(donchian_strategy, store = TRUE)
-initPortf(donchian_strategy, "AAPL", initDate = initDate)
+initPortf(donchian_strategy, "AAPL")
 initAcct(donchian_strategy,  portfolios = donchian_strategy,
-         initDate = initDate, initEq = start_equity,
+         initEq = start_equity,
          currency = 'USD')
 
-initOrders(donchian_strategy, initDate = initDate)
+initOrders(donchian_strategy)
+
+addPosLimit(
+    portfolio = donchian_strategy,
+    symbol = "AAPL",
+    timestamp = initDate,
+    maxpos = orderSize)
 
 
-# Create the indicator
+                                        # Create the indicator
 add.indicator(strategy = donchian_strategy,
               name = "DonchianChannel",
               arguments = list(HL = quote(HLC(mktdata)[, 1:2]),
@@ -932,7 +941,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "long",
              ordertype = "market",
              replace = FALSE,
-             TxnFees = fee,
+             osFUN = osMaxPos,
              orderqty = +orderSize),
          type = "enter",
          label = "EnterLong",
@@ -946,7 +955,7 @@ add.rule(donchian_strategy, name = "ruleSignal",
              orderside = "short",
              ordertype = "market",
              replace = FALSE,
-             TxnFees = fee,
+             osFUN = osMaxPos,
              orderqty = -orderSize),
          type = "enter",
          label = "EnterShort"
@@ -980,18 +989,19 @@ add.rule(donchian_strategy, name = "ruleSignal",
          )
 
 results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
-getTransactions(Portfolio=donchian_strategy, Symbol="AAPL")
+getTxns(Portfolio=donchian_strategy, Symbol="AAPL")
 
 updatePortf(donchian_strategy)
 updateAcct(donchian_strategy)
 updateEndEq(donchian_strategy)
 chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
+chart.Posn(donchian_strategy, Symbol = 'AAPL')
 #chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2000::2010')
 
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
 tstats = t(tradeStats(donchian_strategy, 'AAPL'))
-xtable(tstats)
+stargazer(tstats)
 
 mk <- mktdata['1990-01-01::2018-12-31']
 mk.df <- data.frame(Date=time(mk),coredata(mk))
@@ -999,7 +1009,7 @@ mk.df
 
 rets <- PortfReturns(donchian_strategy)
 rownames(rets) <- NULL
-charts.PerformanceSummary(rets/100, colorset=bluefocus)
+charts.PerformanceSummary(rets, colorset=bluefocus)
 
 ######## buy and hold test
 #the code for this this part was taken from
@@ -1013,7 +1023,7 @@ initPortf("buyHold", symbols = "AAPL", initDate = initDate)
 initAcct('buyHold', portfolios = 'buyHold', initDate = initDate,
          initEq = start_equity)
 
-CurrentDate <- time(getTransactions(Portfolio = donchian_strategy,
+CurrentDate <- time(getTxns(Portfolio = donchian_strategy,
                             Symbol = "AAPL"))[2]
 equity = getEndEq("buyHold", CurrentDate)
 ClosePrice <- as.numeric(Cl(AAPL[CurrentDate,]))
@@ -1034,17 +1044,20 @@ chart.Posn("buyHold", Symbol = "AAPL")
 
 tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold
-xtable(tstats_buyhold)
+stargazer(tstats_buyhold)
 
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
+colnames
+#Performance Summary
+returns = PortfReturns(donchian_strategy)
 colnames(returns) = 'Dochian Strategy'
-returns <- returns/100
-charts.PerformanceSummary(returns/100, colorset = 'darkblue')
+## returns <- returns/100
+charts.PerformanceSummary(returns, colorset = 'darkblue')
 #
 return_buyhold <- PortfReturns(Account = "buyHold")
 colnames(return_buyhold) = 'Buy and Hold'
-return_buyhold <- return_buyhold/100
+#return_buyhold <- return_buyhold0
 charts.PerformanceSummary(return_buyhold, colorset='darkblue')
 #
 return_both = cbind(returns, return_buyhold)
@@ -1071,7 +1084,7 @@ chart.RelativePerformance(returns, return_buyhold,
                           legend.loc = "topleft")
 
 #---- Fama French 3 Factor Model ----
-ff_factors <- read.csv2("./ff_factors.csv", sep = ',')
+ff_factors <- read.csv2("ff_factors.csv", sep = ',')
 
 # change the columns to the correct data type
 ff_factors$Mkt.RF <- as.numeric(as.character(ff_factors$Mkt.RF))
@@ -1086,18 +1099,22 @@ ff_date <- ff_factors$Date
 ff_factors <- ff_factors[, -1]
 
 # Rename the columns
+# MktRf = Market Return above Risk Free Rate
+# SMB = Size Factor
+# HL = Book Value/Market Value
+# RF = Risk Free Rate
 colnames(ff_factors) <- c("MktRf", "SMB", "HL", "RF")
 
 # Create an XTS Object
 ff_factors <- xts(ff_factors, ff_date)
 ff_factors <- ff_factors["1990/20181228"]
-ff_factors <- ff_factors/100
+## ff_factors <- ff_factors/100
 
 excess_returns = PortfReturns(donchian_strategy) - ff_factors$RF
 # FF 3 Factor Model
 model <- lm(excess_returns ~ MktRf + SMB + HL, data=ff_factors)
 summary(model)
-xtable(model, digits = c(0, 11, 11, 4, 4))
+stargazer(model)
 
 # Portfolio Summary Graphs
 strategy_pf <- getPortfolio(donchian_strategy)
@@ -1108,16 +1125,16 @@ xyplot(buyhold_pf$summary, type = "h", col = 4)
 
 # Summary statistics of Buy & Hold strategy
 buyhold_summary <- basicStats(return_buyhold * 100)
-xtable(buyhold_summary, digits = c(0, 5))
+stargazer(buyhold_summary, digits = c(0, 5))
 
 
 # Summary statistics of the Donchian Channel strategy
 strategy_summary <- basicStats(returns * 100)
-xtable(strategy_summary, digits = c(0, 5))
+stargazer(strategy_summary, digits = c(0, 5))
 
 # Tstats table for both
 tstats_table_both <- cbind(tstats, tstats_buyhold)
-xtable(tstats_table_both)
+stargazer(tstats_table_both)
 
 # Chart the whole series
 initDate <- "1980-01-01"
@@ -1125,10 +1142,8 @@ startDate <- "1980-01-01"
 endDate <- "2018-12-31"
 
 getSymbols("AAPL", from = startDate, to = endDate)
-AAPL <- na.omit(AAPL)
-colnames(AAPL) <- c('Open', 'High', 'Low', 'Close', 'Volume', 'Adjusted')
-                                        # Chart the Series
-chartSeries(AAPL, theme = 'white')
+#AAPL <-
+chartSeries(AAPL, theme="white")
 #+END_SRC
 
 #+RESULTS:
