@@ -1,5 +1,5 @@
 * README
 
 This repository is for the course "Quantitative Trading with R" at the University of Trier.
-The main aim to show this work is to provide an example of how to program a quantitative
-trading strategy with quantstrat
+Its main purpose is to give an example how to program a quantitative trading strategy with quantstrat
+and also to serve as an example for future students who participate in this course.
