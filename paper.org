@@ -1,5 +1,4 @@
 #+OPTIONS: toc:nil
-#+OPTIONS: H:2
 #+BEGIN_abstract
 This is my abstract, it is a really good abstract
 #+END_abstract
@@ -54,67 +53,111 @@ bibliographystyle:agsm
 	 \end{figure}
 
 
-* Strategies
-\label{sec:strategy}.
-** Buy and Hold
-   \label{sec:buyhold}
+* Methodology
+\label{sec:methodology}.
+** Strategies
+*** Buy and Hold
+    \label{sec:buyhold}
 
-   The first strategy that will be examined here is the \gls{bah} strategy. The \gls{bah} strategy does what its name suggests. At the beginning of the
-   period the asset will be bought and hold over the entire observed period. A graphical representation of the strategy applied to the Apple Stock from
-   1990-01-01 to 2018-12-01 can be seen in figure \ref{img:buyhold-strategy}.
-   This strategy also serves as the reference strategy against which the \gls{dcs} in chapter \ref{sec:donchian} is measured.
-   If the \gls{bah} strategy fares better in terms of the calmar ratio than Donchian Channel strategy, one would be better off just buying the stock and
-   do not try to outperform its performance.
+ The first strategy used in this paper is the so called \gls{bah} strategy. This strategy will also serve as a benchmark,
+ against which the quantitative trading strategy used in this paper will be measured. The \gls{bah} strategy works exactly
+ like its name suggests. The asset will be bought at the beginning of the period and will be sold at the end of it.
+ For a better comparison the quantitative strategy, the \gls{bah} strategy will enter the market at the same time as 
+ its counterpart. Therefore a fair comparison over the same time frame is possible. \\
 
-
-
-** Donchian Channel Strategy
-   \label{sec:donchian}
-
-Technical Trading strategies are usually based off of some quantitative indicator, which generates the respective buy or sell signals.
-In this paper, the Donchian Channel has been chosen to demonstrate a typical quantitative strategy.
-The Donchian Channel has been invented by Richard Donchian in the 1970's and received a wider recognition after the Turtle Traders (see Appendix X)
- publicized their use of it. The system presented in this paper can be classified as breakout system, since it generates a buy signal whenever
-the closing price is greater than the upper bound of the Donchian Channel and a short signal is triggered whenever the asset has a closing price
-below the lower bound.
-
-
-*** Indicator
-  The indicator chosen for the backtest is called the **Donchian Channel**. It was invented by Richard Donchian in the 1970's and falls under the category of trend following indicators. It was used with great success by Richard Dennis
-  who used it to train the Turtle Traders (**enter reference here**). Particularly its simplicity makes it a good candidate for backtesting since it is really easy to compute and thus makes it not computationally expensive.
-  The indicator consists in its simplest form of an upper bound and a lower bound. The upper bound consists of the highest price of the last /n/ days, whereas the lower bound consists of the lowest price of the last /n/ days.
-  The more complex indicator also consists of a middle line, which is simply an average of the aforementioned upper and lower bounds. However, in this paper it was not used and is therefore not mentioned in the following mathematical
-  representation of the indicator.
+ This strategy also is at the heart of Fama and Frenchs \gls{emh}. If the quantitative strategy is not able to beat
+ the \gls{bah} strategy, the \gls{emh} cannot be disproved.
 
 
 
-  \begin{align}
-  Upper \;Channel\; = Maximum(p_{1}, p_{2}, ..., p_{n}) \\
-  Lower \;Channel\; = Minimumimum(p_{1}, p_{2}, ..., p_{n})
-  \end{align}
+*** Donchian Channel Strategy
+    \label{sec:donchian}
 
-*** Strategy
- While it is possible to use the Donchian Channel as a counter trend strategy, the following trend following strategy was used for the purpose of this paper:
- A long signal is triggered, whenever the closing price of the current period lies above the upper bound and a short signal is generated whenever the closing price of the current period falls below the lower bound. Although plenty
- of possible signals to exit the positions exist, in this paper a sell signal exits a long trade and a short signal exits a long trade.
- The whole backtest (optimization and trading) was implemented in R using the quantstrat package. The code that generated the following results can be found in the Appendix.
+ The quantitative strategy used in this paper for the purpose of the backtesting, the \gls{dcs} was used.
+ The \gls{dcs} can be classified as a trend following strategy and is based on the *Donchian Channel*, which was
+ invented by Richard Donchian in the 1970's.
+
+ The Donchian Channel (in this paper) consists of two channels which serve as the signals lines for the strategy.
+ These channels can be calculated according to equation \eqref{eq:donchian-channel}. It can be seen, that their 
+ calculation is quite simple. The upper channel is just the highest closing price of the last n days, while 
+ the lower channel is the lowest price of the last /n/ days. \\
 
 
-** Calmar Ratio
-\label{sec:calmar}
-   To compare the above stated strategies in a reasonable way, it is advisable to pick a statistic that does not solely rely on the profits generated by the
-   specific strategy, but also takes their risk into account.
-   Therefore a measure to quantify the relation of risk and return is needed. In this paper, the statistic employed for a fair comparison of the
-   aforementioned attributes is the Calmar Ration. The Calmar ratio takes the profit generated by a strategy in relation to the maximum drawdown it
-   generates. Thus showing the relationship between these two in an easily comparable value. A mathematical representation of the Calmar Ratio
-   can be seen in equation \eqref{eq:calmar-ratio}.
+   \begin{align}
+   \label{eq:donchian-channel}
+   Upper \;Channel\; = Maximum(p_{1}, p_{2}, ..., p_{n}) \\
+   Lower \;Channel\; = Minimumimum(p_{1}, p_{2}, ..., p_{n})
+   \end{align}
 
-\begin{equation}
-	 \label{eq:calmar-ratio}
-   Calmar\;Ratio = \frac{Profit}{Maximumimum\;Drawdown}
-\end{equation}
+ The \gls{dcs} generates a long signal whenever the current price lies above the upper channel of the strategy and
+ accordingly, a short signal whenever the current price lies below the lower channel. It becomes apparent that the 
+ time frame over which the two channels are calculated is an important factor, since one gets different values 
+ for them according the number of days chosen for the parameter n.
 
-** Fama French Modell vorstellen
+ To solve this issue, the price data from 1980 to 1990 was used to optimize this parameter. This was done using 
+ the statistical programming language R in conjunction with the quantstrat package. This optimization yielded a value 
+ of 95 days as the optimal number of days to calculate the channel. The script used for this purpose can be found in
+ appendix \ref{sec:opt}.
+
+
+
+** Comparison
+
+*** Calmar Ratio
+ \label{sec:calmar}
+    To compare the above stated strategies in a reasonable way, it is advisable to pick a statistic that does not solely rely on the profits generated by the
+    specific strategy, but also takes the risk they take on into account.
+    Therefore a measure to quantify the relation of risk and return is needed. In this paper, the statistic employed for such a comparison of the
+    aforementioned attributes is the *Calmar Ratio*. The Calmar ratio takes the profit generated by a strategy in relation to the maximum drawdown it
+    generates. Thus showing the relationship between these two in an easily comparable value. A mathematical representation of the Calmar Ratio
+    can be seen in equation \eqref{eq:calmar-ratio}.
+
+ \begin{equation}
+	  \label{eq:calmar-ratio}
+    Calmar\;Ratio = \frac{Profit}{Maximumimum\;Drawdown}
+ \end{equation}
+
+    If the calmar ratio of the \gls{dcs} is higher than the one the \gls{bah} strategy, then it can be deemed as superior,
+    since it generated more profit than is took on risk in form of the maximum drawdown. \\
+
+    Nonetheless, to really estimate if the strategy can be seen as less risky, it is advisable to look for risks that cannot be found by solely
+    conducting a backtest. One such method is the Fama-French Three Factor model, which will be introduced in the following 
+    section.
+
+*** Fama French Modell vorstellen
+
+    The Fama-French three factor model has been developed by Eugene Fama and Kenneth french and was published in their
+    seminal paper "Efficient Capital Markets: A Review of Theory and Empirical Work" in the Journals of Finance in 
+    1970. \\
+
+    They showed that markets are generally efficient, but proved the existence of two additional factors (next to
+    the excess market returns) that positively identify the outperformance of the market. According to French and Fama
+    these factors are additional risk factors, and the higher return of these stocks can be attributed to those risks.
+    Since the excess market returns is also considered in this model it is generally called the Fama-French 3 Factor Model. \\
+
+    As already mentioned, the first factor considered by the model is the excess market return. This risk factor
+    consists of the market return adjusted for the risk free rate. This is done, to show the markets return without
+    the safe risk free component and can therefore be seen as the /"pure"/ market return. \\ 
+
+    The next factor that positively influences the performance of a stock is its market capitalization. They found
+    that stocks with a smaller market capitalization tend to outperform stocks with a bigger one tend to outperform
+    the market on a consistent basis. However, this also poses some additional risk, since stocks with small market
+    capitalization are usually companies that are just starting out or are older companies who have not been that
+    successful so far.
+
+    The third and therefore last risk factor that Fama and French found to be of significance, was the price-to-book 
+    factor. They showed empirical evidence, that stocks with a low price to book value also outperform the market by
+    a significant margin. A low price to book value means in practice, that the stock is trading is trading below
+    the stated book value of their balance sheets. In theory the market capitalization of a company should be at least
+    equal to the book value estimated by accountants, otherwise it would be possible to buy the whole company at this lower
+    market price and sell all its assets at the stated book value and making a profit in the process. 
+    
+    If the \gls{dcs} is not exposed to these three factors and does generate a significant alpha, it is safe to conclude
+    that the strategy is superior to the \gls{bah} strategy proposed by Fama and French. Otherwise, the opposite holds
+    true
+
+
+
 * Results
   
 ** Buy and Hold Strategy
@@ -180,14 +223,14 @@ However, the most intense drawdown of 2018 eradicated close to 90% of the return
 
 
 Nonetheless, a closer look at the data this strategy generated is needed to assess its overall performance.
-Table \ref{tab:bah-stats} shows the trading statistics of it.
-It can be seen that some of the statistics are missing, and most of the statistics show the same value.
+Table \ref{tab:bah-stats} shows its trading statistics.
+It becomes visible that some of the statistics are missing, and most of the statistics show the same value.
 This is due to the fact, that by its nature, the \gls{bah} strategy only consists of two trades and therefore 
 some of the statistics (e.g. the standard deviation of the trade \gls{pl}) need more data than is available for
 their calculation. This also explains why a lot of the values are the same. Since there is only one trade 
 (a buy and a sell order) were executed, the median and the average \gls{pl} are necessarily the same.
 
-
+\FloatBarrier
 \begin{table}[!Htbp] \centering 
 \caption{Buy & Hold Strategy - Trading Statistics}
 \label{tab:bah-stats}
@@ -231,6 +274,7 @@ End Equity & 3093171 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+\FloatBarrier
 
 
 It can be seen that the strategy netted a profit of $3093171, which corresponds to a total return of 309.31%. 
@@ -304,6 +348,7 @@ had more losing than winning trades, the overall amount of winning trades were l
 during the backtest.
 
 
+\FloatBarrier
 \begin{table}[!htbp] \centering 
 \caption{Donchian Channel Strategy - Trading Statistics}
 \label{tab:strategy-stats}
@@ -347,6 +392,7 @@ End Equity & 4178491 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+\FloatBarrier
 
 
 But also, just as in section \ref{sec:buyhold-results} one has to take into account the risk associated with the 
@@ -423,6 +469,7 @@ While the \gls{bah} strategy only has a ratio of 1.814389, the \gls{dcs} has a r
 be seen as the superior strategy according to this metric.
 
 
+\FloatBarrier
 \begin{table}[!htbp] \centering 
   \caption{Donchian Channel Strategy vs Buy & Hold - Trade Statistics} 
   \label{tab:both-tradestats} 
@@ -466,6 +513,7 @@ End Equity & 4178491 & 3093171 \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
+\FloatBarrier
 
 *** Fama-French 3 Factor Model
     
@@ -478,8 +526,18 @@ these factors. \\
 
 Table \ref{tab:regression} shows the output of the regression of the excess returns ($gross\; returns - risk\; free\; rate$ ) against the three Fama-French Factors.
 The factor delineated as /MktRf/ in the regression output is the market return adjusted by the risk free rate. This factor shows the \gls{dcs} returns sensitivity to the 
-markets excess returns.  
+markets excess returns.  \\
+The factor symbolized by SMB stands for /small minus big/, meaning that stocks with a smaller market capitalization 
+outperform stocks with a bigger market capitalization. This factor tests if the \gls{dcs} is exposed to this risk. \\ 
 
+The last factor in this model tests if the strategy is susceptible to the low book value effect and is delineated by /HL/.
+If this factor is found to be significant, the strategy is also exposed to this effect. \\
+
+The bottom of the table shows the legend to determine the significance levels based on the p-values of these factors.
+It becomes immediately obvious that all factors together are significant by looking at the value for the F Statistic.
+The F Statistic exhibits a value of 24.008 and is therefore significant at the 0.01 level.
+
+\FloatBarrier
 \begin{table}[!htbp] \centering 
   \caption{Fama French 3 Factor Regression} 
   \label{tab:regression} 
@@ -513,9 +571,62 @@ F Statistic & 24.088$^{***}$ (df = 3; 7302) \\
 \textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 \end{tabular} 
 \end{table} 
+\FloatBarrier
+
+Also it can be seen that the strategy is susceptible to every individual risk factor shown in this model at a 
+0.01 significance level. This means that the excess returns of the \gls{dcs} can be explained by these risk factors. \\
+
+But more importantly, the strategy does not generate a positive alpha. In fact, is produces a negative alpha of -1%.
+This shows, that the strategy itself is not generating any positive return.
+
+
 
 
 * Conclusion
+
+In the sections above, two trading strategies have been presented. The first one, was the \gls{bah} strategy, which 
+served as the benchmark against which the quantitative trading strategy was measured. The quantitative trading strategy
+chosen in this paper was the \gls{dcs} which generates a long signal after the upper channel of the Donchian Channel
+is broken, and a short signal after the lower bound is broken. Both of these strategies were backtested using the 
+Apple stock in the period from 1990-2028 as an example. It could be seen, that the \gls{dcs} traded more actively than
+the \gls{bah} strategy while generating more profit and exhibiting lower risk levels measured by the net profits and
+the maximum drawdown respectively. \\
+
+But the main measure used to compare these strategies was the *Calmar Ratio*, which takes the net profit and the 
+maximum drawdown in relation to each other and therefore presents us a value which can be interpreted as the 
+amount of profit in units of risk.
+Again, the \gls{dcs} beat the corresponding \gls{bah} strategy by a wide margin, considering this statistic. \\
+
+However, the final test of validity of the superiority of the \gls{dcs} was conducted by regressing the Fama-Franch
+Risk factors onto the excess returns of the strategy. It could be seen that the strategy was exposed to any of these
+three risk factors and even generated a negative alpha. This results shows clearly that the \gls{dcs} is not a 
+viable strategy, but relies on taking on the aforementioned risks to generate its superior result. \\ 
+
+Nonetheless it is important to note the limitations of this backtest. First, the strategy was only tested on the
+Apple stock and therefore it is possible that the strategy does just not fare well on this stock but does so on another
+asset. 
+Another caveat is that the strategy only traded in position sizes of $20000 and did not increase the position size
+whenever two or more successive signals in the same market direction have been triggered. This /pyramiding/ of positions
+can alter the results dramatically.
+Also, the \gls{dcs} is just one of many different quantitative trading strategies in existence, it may very well be
+that another strategy might yield a positive result. \\
+
+On the other hand, the backtest presented in this paper was done assuming a round trip fee of just $10. This value
+was chosen for ease of purpose and may not be very realistic. Choosing a higher value or a value based on a percentage
+order size allows for a more realistic estimation of the strategy and will certainly lower its return.  \\
+
+Further, the backtest in this paper did not take any taxes into account. This is a truly unrealistic assumption which 
+further skews the returns of the \gls{dcs} to the positive side and makes it seem more viable.
+
+It could be seen, that the \gls{dcs} did not beat the \gls{bah} strategy and should therefore not be implemented 
+with real money. Since it could not be proven that it is possible to beat the market, Fama and Frenchs findings, that 
+the market is efficient could not be disputed.
+
+
+
+
+
+
 
 #+LaTeX: \begin{appendices}
 \newpage
@@ -526,6 +637,7 @@ bibliography:references.bib
 * Appendix
 #+NAME: Optimization Script
 **  Script for Optimization
+\label{sec:opt}
 #+BEGIN_SRC R
 
 if (!require("quantstrat")) {
@@ -713,6 +825,7 @@ max_calmar_parameter
 
 #+NAME: Optimization Script
 **  Script for Backtesting & Analysis
+\label{sec:trading}
 #+BEGIN_SRC R
 
 # ----- IMPORTANT -----
