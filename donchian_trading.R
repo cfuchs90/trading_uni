@@ -310,4 +310,6 @@ endDate <- "2018-12-31"
 
 getSymbols("AAPL", from = startDate, to = endDate)
 #AAPL <-
-chartSeries(AAPL, theme="white")
+chartSeries(AAPL, theme="white", TA=NULL, Dates = '2000::2010')
+addSMA(n=10, col = 'red')
+addSMA(n=20, col = 'blue')

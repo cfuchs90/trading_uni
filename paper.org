@@ -34,12 +34,89 @@ This is my abstract, it is a really good abstract
 
 * Introduction
 \label{sec:intro}
+In this paper the viability of a quantitative trading strategy will be examined and compared to the \gls{bah} strategy
+proposed by the \gls{emh}. If this strategy is able to outperform, the \gls{bah} strategy it can be seen as superior and
+the \gls{emh} as refuted.
 
+The \gls{emh} hypothesis states, that all information about a stock gets immediately discounted into the price, making
+it impossible to outperform the practice of buying and holding the asset (commonly known as the \gls{bah} strategy),
+without taking any additional risk. This means, that the price of an asset always trades at its fair value (cf cite:fama_efficient_1970 ).
 
+Quantitative traders (also called /technical traders/) on the other hand, do not believe the \gls{emh} to be true and
+try to aim at a higher performance than the market itself. Their reasoning for this belief is characterized by
+these three main assumptions the make about the markets.
 
+The first assumption states that markets move in trends, which means that markets are always in one of three states.
+The first state is called an uptrend which means that a period of rising prices is followed by a period of even higher
+prices. The second state on the other hand is called a downtrend and implies exactly what its name suggests, namely
+a period of lower prices which is followed by a period of even lower prices. The third state, as characterized by technical 
+traders is a sideways trend, which means that the price of an asset moves between a range of two prices and stays
+within this band.
+Nonetheless, proponents of the \gls{emh} and quantitative traders share the belief that all information gets immediately 
+discounted into the price. However, both take derive very different conclusions from this assumption. While the \gls{emh}
+clearly states that this makes all efforts to outperform the market futile, technical traders argue that it is therefore
+unnecessary to take fundamental data into account when forming their trading decisions.
+The last assumption quantitative traders employ, is that the market does not change. This implies that the price
+data of every asset forms repetitive patterns that can be used to gauge the future market direction (cf cite:murphy_technical_1999).
 
+*** TODO: Behavioural Aspects hier einfügen
+Another reason why quantitative trading strategies can be successful is due to behavioural facts.
 
-*** Data
+As Pring states: 
+\begin{quote}
+\textit{"The technical approach to investment is essentially a reflection of the idea thatprices move in trends 
+which are determined by the changing attitudes of investorstoward a variety of economic, monetary, political
+in psychological forces...Since the technical approach is based on the theory that price is a reflection of 
+masspsychology ("the crowd") in action, it attempts to forecast future price movementson the assumption that 
+crowd psychology moves between panic, fear, and pessimismon one hand and conficence, excessive optimism, and
+greed on the other hand."}
+\end{quote}
+
+*** What are technical trading strategies
+Before continuing with the topic at hand, it is advisable to describe what a quantitative trading strategy actually
+is and how it is used.
+Quantitative trading strategies are based off of some indicator, which is usually some mathematical formula that takes
+the price as an input and derives based on its calculation the optimal points in time for buying and selling a security.
+According to these signals the asset will be traded accordingly.
+
+However, there are actually two classes of indicators available which trade the market in a different way.
+The first kind of indicator is a trend following indicator, which does what its name suggests. The indicator
+tries to identify the current trend and gives a buy signal in an uptrend and vice versa in a downtrend.
+The second kind of indicator is a counter trend indicator. These indicators aim to give a buy signal whenever 
+an earlier downtrend is in the process of reversing and will give a sell signal whenever a previous uptrend reverses. 
+Notwithstanding, this class of indicators is beyond the scope of this paper and will not be examined further.
+
+Based on these indicators, buy of sell signals will be given and traded accordingly.
+
+*** Example of Strategy
+An example of a trend-following strategy is the SMA Crossover Strategy. It consists of two \gls{sma}s, which take a
+different time horizon into account for their calculation. A buy signal is given whenever the "faster" (meaning
+the \gls{sma} which takes less time into account than the other) crosses the "slower" \gls{sma} from below. 
+The signal to sell the asset is given whenever the fast \gls{sma} crosses the slow \gls{sma} from above.
+This strategy can be seen in figure \ref{*INSERT_REFERNCE_TO_SMA_STRATEGY_HERE*}, where the strategy is used
+on the Apple stock. In this example the fast \gls{sma} takes 10 days of price data into account and is shown in
+this graph by the red line. The slow \gls{sma} on the other hand, takes 20 days of price data into account and is
+represented by the blue line.
+
+	 \begin{figure}[H]
+		 \centering
+		 \caption{SMA Example}
+		 \label{img:stock}
+		 \includegraphics[width = 10cm]{sma_example}
+	 \end{figure}
+
+This indicator will not be used in this paper and therefore no mathematical representation of it is needed, but 
+it serves as good example of a technical indicator.
+
+*** What will be done
+For this purpose, the statistical computing language /R/ in conjunction with the /quantstrat/ package was used.
+The test was done using the backtesting methodology where a specific quantitative trading strategy was tested on the
+price of the Apple stock during period of January 1980 until December 2018, which can be seen in figure \ref{img:stock}. 
+The data was split into two parts for the following purpose. 
+The first part of the dataset, which spans from January 1980 to December 1989, was used as a training set for the strategy.
+This part has been used to optimize the parameter the quantitative strategy takes into account to derive its trading signals.
+The second dataset employed in this paper was used to actually trade the strategy and to examine its result, and 
+spans from January 1990 to December 2018.
 
 	 \begin{figure}[H]
 		 \centering
@@ -48,6 +125,7 @@ This is my abstract, it is a really good abstract
 		 \includegraphics[width = 10cm]{stock}
 	 \end{figure}
 
+*** Literature Review
 
 * Methodology
 \label{sec:methodology}.
