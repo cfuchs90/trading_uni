@@ -6,15 +6,15 @@
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("inputenc" "utf8") ("fontenc" "T1") ("ulem" "normalem") ("natbib" "square")))
    (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "lstinline")
-   (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "lstinline")
+   (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
     "lat_pre"
@@ -35,52 +35,56 @@
     "hyperref"
     "natbib")
    (LaTeX-add-labels
-    "sec:org13c3c60"
+    "sec:org15bf747"
     "sec:intro"
-    "sec:orgd33b3f3"
-    "sec:org43967fd"
-    "sec:orgd8407e2"
     "img:stock"
-    "sec:orgb25d99f"
+    "sec:org78cf90f"
+    "sec:org8333c97"
+    "sec:org24cf444"
+    "img:sma_example"
+    "sec:org48519fd"
+    "sec:org6aa75c3"
+    "sec:org3a4a925"
+    "sec:orgbf7d542"
     "sec:methodology"
-    "sec:org866a844"
-    "sec:org2c18b09"
+    "sec:org590caff"
+    "sec:orga7a7b75"
     "sec:buyhold"
-    "sec:org7547627"
+    "sec:org115965d"
     "sec:donchian"
     "eq:donchian-channel"
-    "sec:orgd0e4cb8"
-    "sec:orga1641c7"
+    "sec:org08918f7"
+    "sec:org7927fcd"
     "sec:calmar"
     "eq:calmar-ratio"
-    "sec:org779c338"
+    "sec:org221ba14"
     "sec:ff-intro"
-    "sec:orgd0e0e37"
-    "sec:org0d43999"
+    "sec:orgeeca5f9"
+    "sec:org042aad0"
     "sec:bah-results"
     "img:buyhold-strategy"
     "img:buyhold-performance"
     "tab:bah-stats"
-    "sec:orgc8d4d9a"
+    "sec:orgcc76214"
     "sec:dcs-results"
     "img:donchian-strategy"
     "img:donchian-performance"
     "tab:strategy-stats"
-    "sec:orgb47dfc6"
+    "sec:orgcfb2001"
     "sec:comparison"
-    "sec:orge5e78f9"
+    "sec:org796bace"
     "img:donchian-vs-buyhold"
-    "sec:org4922368"
+    "sec:orgf371500"
     "img:relative-performance"
-    "sec:org3c8d93f"
+    "sec:org62ad07f"
     "tab:both-tradestats"
-    "sec:org697eec0"
+    "sec:orge5f2eb2"
     "tab:regression"
-    "sec:org021b8fe"
-    "sec:orgd6d31c6"
-    "sec:orgfe311bd"
+    "sec:org50ddaf5"
+    "sec:org396f12b"
+    "sec:org8c03a3f"
     "sec:opt"
-    "sec:orgc6cd2f1"
+    "sec:orga39ea24"
     "sec:trading")
    (LaTeX-add-bibliographies
     "references")
