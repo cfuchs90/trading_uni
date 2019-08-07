@@ -28,7 +28,7 @@ AAPL <- na.omit(AAPL)
 # Set up initial equity and transaction costs
 start_equity <- 1e6
 orderSize <- start_equity * 0.02
-fee = -10 # Transaction fee of $2
+fee = -10 # Transaction fee of $10
 stopp_loss <- 0.02
 
 init_n <- 20
@@ -137,19 +137,9 @@ add.rule(donchian_strategy, name = "ruleSignal",
          type = 'exit'
          )
 
-#results <- applyStrategy(donchian_strategy, portfolios = donchian_strategy)
-## getTxns(Portfolio=donchian_strategy, Symbol=symbols)
-## chart.Posn(donchian_strategy, Symbol = symbols, Dates = "2017::")
-
-## updatePortf(donchian_strategy)
-## updateAcct(donchian_strategy)
-## updateEndEq(donchian_strategy)
-## chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2005::')
-
-## trade_stats <- perTradeStats(donchian_strategy,symbols)
 
 
-# Optimize the moving average parameter
+# Optimize the parameter
 
 add.distribution(donchian_strategy,
                  paramset.label = 'DonchianChannel',

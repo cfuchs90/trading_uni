@@ -2,7 +2,6 @@
 # Please set the working directory to the current directory using setwd()
 # before running the script
 
-# parameter 11
 
 # Setup cpde taken from
 if (!require("quantstrat")) {
@@ -14,12 +13,12 @@ if (!require("quantstrat")) {
     install_github("braverock/quantstrat")
 }
 
-## install.packages("lattice")
-## install.packages("quantmod")
-## install.packages("xts")
-## install.packages("stargazer")
-## install.packages("lubridate")
-## install.packages("fBasics")
+install.packages("lattice")
+install.packages("quantmod")
+install.packages("xts")
+install.packages("stargazer")
+install.packages("lubridate")
+install.packages("fBasics")
 
 library(quantstrat)
 library(lattice)
@@ -163,7 +162,6 @@ updateAcct(donchian_strategy)
 updateEndEq(donchian_strategy)
 chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2016::')
 chart.Posn(donchian_strategy, Symbol = 'AAPL')
-#chart.Posn(donchian_strategy, Symbol = 'AAPL', Dates = '2000::2010')
 
 trade_stats <- perTradeStats(donchian_strategy,"AAPL")
 
@@ -213,26 +211,20 @@ tstats_buyhold = t(tradeStats('buyHold', 'AAPL'))
 tstats_buyhold
 stargazer(tstats_buyhold)
 
-#Performance Summary
-returns = PortfReturns(donchian_strategy)
-colnames
+
 #Performance Summary
 returns = PortfReturns(donchian_strategy)
 colnames(returns) = 'Dochian Strategy'
-## returns <- returns/100
 charts.PerformanceSummary(returns, colorset = 'darkblue')
-#
 return_buyhold <- PortfReturns(Account = "buyHold")
 colnames(return_buyhold) = 'Buy and Hold'
-#return_buyhold <- return_buyhold0
 charts.PerformanceSummary(return_buyhold, colorset='darkblue')
-#
 return_both = cbind(returns, return_buyhold)
 charts.PerformanceSummary(return_both, geometric = FALSE,
                            wealth.index = TRUE,
                            main = 'Donchian Channel Strategy vs Market')
-#
-#
+
+
 buyhold_per_trade_stats <- t(perTradeStats('buyHold',"AAPL"))
 buyhold_per_trade_stats
 
@@ -309,7 +301,6 @@ startDate <- "1980-01-01"
 endDate <- "2018-12-31"
 
 getSymbols("AAPL", from = startDate, to = endDate)
-#AAPL <-
 chartSeries(AAPL, subset = '2001::2002', theme="white", TA=NULL )
 addSMA(n=10, col = 'red')
 addSMA(n=20, col = 'blue')
